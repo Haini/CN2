@@ -1,0 +1,174 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CN2 Labreport template
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[parskip=full]{scrartcl}
+
+\usepackage{siunitx}  % Provides the \SI{}{} command for typesetting SI units
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{booktabs} % nicer tables
+\usepackage[noabbrev]{cleveref} % automatic references
+\usepackage{listings} % typeset code
+
+\crefname{lstlisting}{listing}{listings} % for referencing code
+\Crefname{lstlisting}{Listing}{Listings} % for referencing code
+
+\usepackage[headsepline]{scrlayer-scrpage} % header
+\ohead{Group X} % right part of header
+\ihead{Assignment Y} % left part of header
+
+\lstset{basicstyle=\ttfamily} % monospaced font in listing
+
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \textbf{Communication Networks 2}}\\
+    SS 2017\\
+    \vspace*{1cm}
+    {\Large Assignment X}
+    \\\vspace*{3cm}
+    {\Large \textbf{Group Y}}\\
+    \vspace*{1cm}
+    {\large 
+        \begin{tabular}{l c c}
+            Name & Mat.Nummer \\ \hline
+            Constantin SCHIEBER & 01228774 \\
+            Andreas HIRTENLEHNER & 01327273
+        \end{tabular}
+    }
+    \\\vspace*{7cm}
+    \today
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Network Hierarchy Recovery}
+
+\begin{verbatim}
+traceroute to landline.cn2lab.cn.tuwien.ac.at (10.1.6.110), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  6.382 ms  6.279 ms  6.259 ms
+ 2  10.0.20.1 (10.0.20.1)  322.040 ms  326.126 ms  326.109 ms
+ 3  landline.cn2lab.cn.tuwien.ac.at (10.1.6.110)  326.091 ms  326.073 ms  326.055 ms
+\end{verbatim}
+
+\begin{verbatim}
+traceroute to satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.160 ms  3.286 ms  3.250 ms
+ 2  10.0.20.1 (10.0.20.1)  155.870 ms  160.159 ms  161.802 ms
+ 3  10.0.84.2 (10.0.84.2)  2685.357 ms  2692.193 ms  2692.169 ms
+ 4  satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123)  2692.266 ms  2692.375 ms  2692.533 ms
+\end{verbatim}
+
+\begin{verbatim}
+CN_08@pc05:~$ ip -6 neigh
+fe80::1ec1:deff:fe80:3261 dev eno1 lladdr 1c:c1:de:80:32:61 router REACHABLE
+2001:629:2600:a018::2 dev eno1 lladdr 72:8f:5d:f9:92:6f router STALE
+fe80::708f:5dff:fef9:926f dev eno1 lladdr 72:8f:5d:f9:92:6f router STALE
+2001:629:2600:a018::1 dev eno1 lladdr 1c:c1:de:80:32:61 router STALE
+CN_08@pc05:~$ ip -4 neigh
+192.168.88.2 dev eno1 lladdr 72:8f:5d:f9:92:6f REACHABLE
+192.168.88.1 dev eno1 lladdr 1c:c1:de:80:32:61 REACHABLE
+\end{verbatim}
+
+\begin{verbatim}
+traceroute to 10.0.84.2 (10.0.84.2), 30 hops max, 60 byte packets
+ 1  * * *
+ 2  10.0.20.1 (10.0.20.1)  165.113 ms  165.100 ms  165.091 ms
+ 3  10.0.84.2 (10.0.84.2)  955.090 ms  955.082 ms  971.120 ms
+\end{verbatim}
+
+\begin{verbatim}
+Nmap scan report for 10.0.20.2
+Nmap scan report for 10.0.84.1
+Nmap scan report for 10.0.212.1
+Nmap scan report for 10.0.212.52
+\end{verbatim}
+
+
+
+\subsection{TITLE SUBSECTION}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+\section{TITLE 2}
+\begin{table}[hb]
+    \centering
+    \caption{Routing table for network A}
+    \label{tab:routing}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{router} & \textbf{destination} & \textbf{via}  \\ \midrule
+        r1 & 10.1.2.0/24 & 10.3.2.1 \\
+        r1 & 10.2.1.0/24 & 10.3.2.1 \\
+        r1 & 10.5.3.0/24 & 10.0.2.1 \\
+        \midrule
+        r2 & 10.0.3.0/24 & 10.5.2.1 \\
+        \midrule
+        r3 & 10.3.0.0/24 & 10.3.4.1 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+With vspace, you can add vertical empty space for formatting purposes (which should only be used as a last resort):
+\vspace*{1cm}
+
+The following text is now shifted vertically for one centimeter
+
+\begin{itemize}
+\item Please use the \textit{itemize} environment for better and clear representation of
+\item your results
+\end{itemize}
+
+\begin{enumerate}
+\item Also you can use the \textit{enumerate} environment for 
+\item representing the sub-examples
+\end{enumerate}
+
+As can be seen in \cref{tab:routing}, tables can also be useful.
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+\section{TITLE 3}
+
+You can add graphics with the code example in \cref{lst:figure}. The result can be seen in \cref{fig:lorem}.
+
+\begin{lstlisting}[language=tex, frame=single, caption={Code for adding a picture}, label=lst:figure, float, floatplacement=h]
+\begin{figure}[ht]
+ \centering
+ \includegraphics[height=6cm]{images/loremipsum.png}
+ \caption{Descriptive text.} 
+ \label{fig:lorem}
+\end{figure} 
+\end{lstlisting}
+
+Hint: if you add references to items,
+then \LaTeX needs to be executed two times. The first run is for writing down every reference and the second run for actually outputting the correct reference instead of \verb+\cref{XX}+.
+If your document contains ?? instead of a reference, you forgot the second compile run.
+
+\begin{figure}[ht]
+ \centering % centering figure 
+ \includegraphics[height=6cm]{images/loremipsum.png} % importing figure
+ \caption{Don't forget to find a fitting caption for your graphics.} 
+ \label{fig:lorem} % labeling to refer it inside the text
+\end{figure} 
+
+%----------------------------------------------------------------------------------------
+%	SECTION X
+%---------------------------------------------------------------------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

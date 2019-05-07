@@ -1,0 +1,148 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CN2 Labreport template
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[parskip=full]{scrartcl}
+
+\usepackage{siunitx}  % Provides the \SI{}{} command for typesetting SI units
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{booktabs} % nicer tables
+\usepackage[noabbrev]{cleveref} % automatic references
+\usepackage{listings} % typeset code
+
+\crefname{lstlisting}{listing}{listings} % for referencing code
+\Crefname{lstlisting}{Listing}{Listings} % for referencing code
+
+\usepackage[headsepline]{scrlayer-scrpage} % header
+\ohead{Group X} % right part of header
+\ihead{Assignment Y} % left part of header
+
+\lstset{basicstyle=\ttfamily} % monospaced font in listing
+
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \textbf{Communication Networks 2}}\\
+    SS 2017\\
+    \vspace*{1cm}
+    {\Large Assignment X}
+    \\\vspace*{3cm}
+    {\Large \textbf{Group Y}}\\
+    \vspace*{1cm}
+    {\large 
+        \begin{tabular}{l c c}
+            Name & Mat.Nummer \\ \hline
+            Constantin SCHIEBER & 01228774 \\
+            Andreas HIRTENLEHNER & 01327273
+        \end{tabular}
+    }
+    \\\vspace*{7cm}
+    \today
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{SIP}
+
+Subjective QoS:
+\begin{itemize}
+	\item Landline: 5 (very good quality)
+	\item Satellite: 3 (slight knacking in audio, video freezing every 5s)
+	\item Satellite Speex, MP4V-ES: bad quality, fragments in picture but no freezes, lag
+	\item Landline Speex, MP4V-ES: No difference in quality
+	\item Satellite H263-1998 PCMU: bad quality, smoother fragments in picture but no freezes, lag
+	\item Landline H263-1998 PCMU: No difference in quality
+\end{itemize}
+Responsible factors are bandwidth, latency, _ (there is another one too!)
+
+\begin{verbatim}
+Insert output or code in the verbatim enviroment,
+       which allows \stuff to be written directly
+\end{verbatim}
+
+\subsection{TITLE SUBSECTION}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+\section{TITLE 2}
+\begin{table}[hb]
+    \centering
+    \caption{Routing table for network A}
+    \label{tab:routing}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{router} & \textbf{destination} & \textbf{via}  \\ \midrule
+        r1 & 10.1.2.0/24 & 10.3.2.1 \\
+        r1 & 10.2.1.0/24 & 10.3.2.1 \\
+        r1 & 10.5.3.0/24 & 10.0.2.1 \\
+        \midrule
+        r2 & 10.0.3.0/24 & 10.5.2.1 \\
+        \midrule
+        r3 & 10.3.0.0/24 & 10.3.4.1 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+With vspace, you can add vertical empty space for formatting purposes (which should only be used as a last resort):
+\vspace*{1cm}
+
+The following text is now shifted vertically for one centimeter
+
+\begin{itemize}
+\item Please use the \textit{itemize} environment for better and clear representation of
+\item your results
+\end{itemize}
+
+\begin{enumerate}
+\item Also you can use the \textit{enumerate} environment for 
+\item representing the sub-examples
+\end{enumerate}
+
+As can be seen in \cref{tab:routing}, tables can also be useful.
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+\section{TITLE 3}
+
+You can add graphics with the code example in \cref{lst:figure}. The result can be seen in \cref{fig:lorem}.
+
+\begin{lstlisting}[language=tex, frame=single, caption={Code for adding a picture}, label=lst:figure, float, floatplacement=h]
+\begin{figure}[ht]
+ \centering
+ \includegraphics[height=6cm]{images/loremipsum.png}
+ \caption{Descriptive text.} 
+ \label{fig:lorem}
+\end{figure} 
+\end{lstlisting}
+
+Hint: if you add references to items,
+then \LaTeX needs to be executed two times. The first run is for writing down every reference and the second run for actually outputting the correct reference instead of \verb+\cref{XX}+.
+If your document contains ?? instead of a reference, you forgot the second compile run.
+
+\begin{figure}[ht]
+ \centering % centering figure 
+ \includegraphics[height=6cm]{images/loremipsum.png} % importing figure
+ \caption{Don't forget to find a fitting caption for your graphics.} 
+ \label{fig:lorem} % labeling to refer it inside the text
+\end{figure} 
+
+%----------------------------------------------------------------------------------------
+%	SECTION X
+%---------------------------------------------------------------------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
