@@ -66,7 +66,7 @@
     \centering
     \vspace*{2cm}
     {\Huge \textbf{Communication Networks 2}}\\
-    SS 2017\\
+    SS 2019\\
     \vspace*{1cm}
     {\Large Assignment 1}
     \\\vspace*{3cm}
@@ -74,7 +74,7 @@
     \vspace*{1cm}
     {\large 
         \begin{tabular}{l c c}
-            Name & Mat.Nummer \\ \hline
+            Name & Mat. Number \\ \hline
             Constantin SCHIEBER & 01228774 \\
             Andreas HIRTENLEHNER & 01327273
         \end{tabular}
@@ -93,10 +93,10 @@
 \subsubsection{Used Protocols}
 Thunderbird uses the protocol IMAP4rev1 (see RFC3501 6.2.2) for the communication with the email server.
 The framework SASL (Simple Authentication and Security Layer, see RFC442 / RFC 2222) is used for authentification purposes.
-SASL was set up with the PLAIN flag, that means that all data is exchanged in plain text.
+In the labrotory set-up SASL was configured with the PLAIN flag, which means that all data is exchanged in plain text.
 
 \subsubsection{Observed Thunderbird Traffic}
-We can observe that Thunderbird negotiates its supported capabilities in listing \ref{lst:protocol} and \ref{lst:protcol2}.
+We can observe that Thunderbird negotiates its supported capabilities in Listings \ref{lst:protocol} and \ref{lst:protcol2}.
 Listing \ref{lst:protocol} shows us that a plain-text authentication process is used, the password should therefore be available in plain-text in one of the following packets.
 
 \begin{lstlisting}[language=tex, breaklines, frame=single, caption={Used Protocol IMAPv4rev1, SASL-IR for authentication}, label=lst:protocol, float, floatplacement=h]
@@ -130,10 +130,10 @@ GNuXzA4QGV4MS5jbjJsYWIuY24udHV3aWVuLmFjLmF0AFhpdm9qaWx1cGE4
 \end{lstlisting}
 
 \subsubsection{Decoding the message}
-The message can be decoded with any Base64 decoder tool, the result can be seen in listing \ref{lst:authenticatePayloadDecoded}.
+The message can be decoded with any Base64 decoder tool, the result can be seen in Listing \ref{lst:authenticatePayloadDecoded}.
 For this exercise, an \href{https://www.base64decode.org/}{online tool} (\url{https://www.base64decode.org/}) was used.
 The client answers to the challenge of the server with its username and password, both transmitted as plain-text.
-\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Base64 encoded message}, label=lst:authenticatePayloadDecoded, float, floatplacement=h]
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Base64 decoded message}, label=lst:authenticatePayloadDecoded, float, floatplacement=h]
 cn_08@ex1.cn2lab.cn.tuwien.ac.atXivojilupa8
 \end{lstlisting}
 
@@ -142,16 +142,15 @@ The password can be deducted by removal of the mail address from the Base64 deco
 
 \subsection{Strategies to secure the communication}
 \subsubsection{Transmission over TLS}
-If a plain-text authentication process is obligatory, one can resort to transmission of the plain-text password over a channel that is protected by TLS (Transport Layer Security).
+If a plain-text authentication process is obligatory, one can resort to transmission of the plain-text password over a channel that is protected by TLS (Transport Layer Security). 
+This protects from passive eavesdropping, but doesn't prevent man-in-the-middle attacks.
 
 \subsubsection{Salted Challenge Response Authentication Mechanism (SCRAM)}
-SASL suppors SCRAM (see RFC5802) as an alternative to PLAIN as an authentication mechanism.
-SCRAM implements a challenge response authentication mechanism that is secure when used in combination with TLS. 
-TODO: Is this really implemented / functional yet?
+Preventing man-in-the-middle attacks presumes that the endpoints assures their identities to each other.
+Therefore, SCRAM (see RFC5802) in combination with certificates and TLS can be used as an alternative to the PLAIN authentication mechanism.
+Furthermore, it protects against offline attacks on the password and user database by storing just password hashes. 
 
 \subsubsection{TODO: MORE SOLUTIONS?}
-
-
 
 %\begin{lstlisting}[language=tex, frame=single, caption={Code for adding a picture}, label=lst:figure, float, floatplacement=h]
 %\begin{figure}[ht]
