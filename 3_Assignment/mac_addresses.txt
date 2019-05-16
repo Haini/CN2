@@ -1,0 +1,21 @@
+10.0.212.1: 16:1c:e5:27:13:9c
+192.168.88.2: 16:1c:e5:27:13:9c
+192.168.88.1: 1c:c1:de:80:32:61
+
+85	17.087665308	192.168.88.117	10.0.212.1	ICMP	98	Echo (ping) request  id=0x1e4a, seq=1/256, ttl=64 (reply in 86)
+16:1c:e5:27:13:9c
+
+95	26.797153111	192.168.88.117	192.168.88.2	ICMP	98	Echo (ping) request  id=0x1e4b, seq=1/256, ttl=64 (reply in 96)
+16:1c:e5:27:13:9c
+
+174	38.247511313	192.168.88.117	10.0.20.1	ICMP	98	Echo (ping) request  id=0x1e4d, seq=1/256, ttl=64 (reply in 175)
+16:1c:e5:27:13:9c
+
+186	45.181504684	192.168.88.117	10.0.84.2	ICMP	98	Echo (ping) request  id=0x1e4e, seq=1/256, ttl=64 (reply in 187)
+16:1c:e5:27:13:9c
+
+205	64.645879799	192.168.88.117	192.168.88.1	ICMP	98	Echo (ping) request  id=0x1e4f, seq=1/256, ttl=64 (reply in 206)
+1c:c1:de:80:32:61
+
+236	73.494472686	192.168.88.117	10.0.212.52	ICMP	98	Echo (ping) request  id=0x1e51, seq=1/256, ttl=64 (reply in 237)
+16:1c:e5:27:13:9c
