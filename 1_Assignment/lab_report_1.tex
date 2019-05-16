@@ -11,6 +11,7 @@
 \usepackage{siunitx}  % Provides the \SI{}{} command for typesetting SI units
 \usepackage{graphicx} % Required for the inclusion of images
 \usepackage{booktabs} % nicer tables
+\usepackage{hyperref}
 \usepackage[noabbrev]{cleveref} % automatic references
 \usepackage{listings} % typeset code
 
@@ -18,10 +19,41 @@
 \Crefname{lstlisting}{Listing}{Listings} % for referencing code
 
 \usepackage[headsepline]{scrlayer-scrpage} % header
-\ohead{Group X} % right part of header
-\ihead{Assignment Y} % left part of header
+\ohead{Group 08} % right part of header
+\ihead{Assignment 1} % left part of header
 
 \lstset{basicstyle=\ttfamily} % monospaced font in listing
+
+\usepackage{lstautogobble}  % Fix relative indenting
+\usepackage{color}          % Code coloring
+\usepackage{zi4}            % Nice font
+
+\definecolor{bluekeywords}{rgb}{0.13, 0.13, 1}
+\definecolor{greencomments}{rgb}{0, 0.5, 0}
+\definecolor{redstrings}{rgb}{0.9, 0, 0}
+\definecolor{graynumbers}{rgb}{0.5, 0.5, 0.5}
+
+\usepackage{listings}
+\lstset{
+    autogobble,
+    columns=fullflexible,
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    showstringspaces=false,
+    breakatwhitespace=true,
+    escapeinside={(*@}{@*)},
+    commentstyle=\color{greencomments},
+    keywordstyle=\color{bluekeywords},
+    stringstyle=\color{redstrings},
+    numberstyle=\color{graynumbers},
+    basicstyle=\ttfamily\footnotesize,
+    frame=l,
+    framesep=12pt,
+    xleftmargin=12pt,
+    tabsize=4,
+    captionpos=b
+}
 
 
 
@@ -36,9 +68,9 @@
     {\Huge \textbf{Communication Networks 2}}\\
     SS 2017\\
     \vspace*{1cm}
-    {\Large Assignment X}
+    {\Large Assignment 1}
     \\\vspace*{3cm}
-    {\Large \textbf{Group Y}}\\
+    {\Large \textbf{Group 08}}\\
     \vspace*{1cm}
     {\large 
         \begin{tabular}{l c c}
@@ -54,85 +86,92 @@
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
-\section{TITLE}
+\section{Email Password Recovery}
 
-SASL see RFC3501 6.2.2
+\subsection{Description of the solution}
 
-Password is saved in Base64 encoding.
+\subsubsection{Used Protocols}
+Thunderbird uses the protocol IMAP4rev1 (see RFC3501 6.2.2) for the communication with the email server.
+The framework SASL (Simple Authentication and Security Layer, see RFC442 / RFC 2222) is used for authentification purposes.
+SASL was set up with the PLAIN flag, that means that all data is exchanged in plain text.
 
-Lorem Ipsum
+\subsubsection{Observed Thunderbird Traffic}
+We can observe that Thunderbird negotiates its supported capabilities in listing \ref{lst:protocol} and \ref{lst:protcol2}.
+Listing \ref{lst:protocol} shows us that a plain-text authentication process is used, the password should therefore be available in plain-text in one of the following packets.
 
-\begin{verbatim}
-Insert output or code in the verbatim enviroment,
-       which allows \stuff to be written directly
-\end{verbatim}
-
-\subsection{TITLE SUBSECTION}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-
-%----------------------------------------------------------------------------------------
-%	SECTION 2
-%----------------------------------------------------------------------------------------
-\section{TITLE 2}
-\begin{table}[hb]
-    \centering
-    \caption{Routing table for network A}
-    \label{tab:routing}
-    \begin{tabular}{lll}
-        \toprule
-        \textbf{router} & \textbf{destination} & \textbf{via}  \\ \midrule
-        r1 & 10.1.2.0/24 & 10.3.2.1 \\
-        r1 & 10.2.1.0/24 & 10.3.2.1 \\
-        r1 & 10.5.3.0/24 & 10.0.2.1 \\
-        \midrule
-        r2 & 10.0.3.0/24 & 10.5.2.1 \\
-        \midrule
-        r3 & 10.3.0.0/24 & 10.3.4.1 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-With vspace, you can add vertical empty space for formatting purposes (which should only be used as a last resort):
-\vspace*{1cm}
-
-The following text is now shifted vertically for one centimeter
-
-\begin{itemize}
-\item Please use the \textit{itemize} environment for better and clear representation of
-\item your results
-\end{itemize}
-
-\begin{enumerate}
-\item Also you can use the \textit{enumerate} environment for 
-\item representing the sub-examples
-\end{enumerate}
-
-As can be seen in \cref{tab:routing}, tables can also be useful.
-%----------------------------------------------------------------------------------------
-%	SECTION 3
-%----------------------------------------------------------------------------------------
-\section{TITLE 3}
-
-You can add graphics with the code example in \cref{lst:figure}. The result can be seen in \cref{fig:lorem}.
-
-\begin{lstlisting}[language=tex, frame=single, caption={Code for adding a picture}, label=lst:figure, float, floatplacement=h]
-\begin{figure}[ht]
- \centering
- \includegraphics[height=6cm]{images/loremipsum.png}
- \caption{Descriptive text.} 
- \label{fig:lorem}
-\end{figure} 
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Used Protocol IMAPv4rev1, SASL-IR for authentication}, label=lst:protocol, float, floatplacement=h]
+* OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE AUTH=PLAIN AUTH=LOGIN] Dovecot ready.
 \end{lstlisting}
 
-Hint: if you add references to items,
-then \LaTeX needs to be executed two times. The first run is for writing down every reference and the second run for actually outputting the correct reference instead of \verb+\cref{XX}+.
-If your document contains ?? instead of a reference, you forgot the second compile run.
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={IMAP settings}, label=lst:protcol2, float, floatplacement=h]
+OK [CAPABILITY IMAP4rev1 LITERAL+ SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SPECIAL-USE] Logged in
+\end{lstlisting}
 
-\begin{figure}[ht]
- \centering % centering figure 
- \includegraphics[height=6cm]{images/loremipsum.png} % importing figure
- \caption{Don't forget to find a fitting caption for your graphics.} 
- \label{fig:lorem} % labeling to refer it inside the text
-\end{figure} 
+Listing \ref{lst:authenticateRequest} shows the request for authentication by the server.
+The client answers with a Base64 encoded string that is shown in listing \ref{lst:authenticatePayload}.
+
+%The authentication protocol exchange consists of a series of
+%server challenges and client responses that are specific to the
+%authentication mechanism.  A server challenge consists of a
+%command continuation request response with the "+" token followed
+%by a BASE64 encoded string.  The client response consists of a
+%single line consisting of a BASE64 encoded string.  If the client
+%wishes to cancel an authentication exchange, it issues a line
+%consisting of a single "*".  If the server receives such a
+%response, it MUST reject the AUTHENTICATE command by sending a
+%tagged BAD response.
+
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Request for authentication by server}, label=lst:authenticateRequest, float, floatplacement=h]
+authenticate PLAIN
+\end{lstlisting}
+
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Base64 encoded message}, label=lst:authenticatePayload, float, floatplacement=h]
+GNuXzA4QGV4MS5jbjJsYWIuY24udHV3aWVuLmFjLmF0AFhpdm9qaWx1cGE4
+\end{lstlisting}
+
+\subsubsection{Decoding the message}
+The message can be decoded with any Base64 decoder tool, the result can be seen in listing \ref{lst:authenticatePayloadDecoded}.
+For this exercise, an \href{https://www.base64decode.org/}{online tool} (\url{https://www.base64decode.org/}) was used.
+The client answers to the challenge of the server with its username and password, both transmitted as plain-text.
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Base64 encoded message}, label=lst:authenticatePayloadDecoded, float, floatplacement=h]
+cn_08@ex1.cn2lab.cn.tuwien.ac.atXivojilupa8
+\end{lstlisting}
+
+\subsection{Decoded Password}
+The password can be deducted by removal of the mail address from the Base64 decoded string and is \texttt{Xivojilupa8}.
+
+\subsection{Strategies to secure the communication}
+\subsubsection{Transmission over TLS}
+If a plain-text authentication process is obligatory, one can resort to transmission of the plain-text password over a channel that is protected by TLS (Transport Layer Security).
+
+\subsubsection{Salted Challenge Response Authentication Mechanism (SCRAM)}
+SASL suppors SCRAM (see RFC5802) as an alternative to PLAIN as an authentication mechanism.
+SCRAM implements a challenge response authentication mechanism that is secure when used in combination with TLS. 
+TODO: Is this really implemented / functional yet?
+
+\subsubsection{TODO: MORE SOLUTIONS?}
+
+
+
+%\begin{lstlisting}[language=tex, frame=single, caption={Code for adding a picture}, label=lst:figure, float, floatplacement=h]
+%\begin{figure}[ht]
+% \centering
+% \includegraphics[height=6cm]{images/loremipsum.png}
+% \caption{Descriptive text.} 
+% \label{fig:lorem}
+%\end{figure} 
+%\end{lstlisting}
+%
+%Hint: if you add references to items,
+%then \LaTeX needs to be executed two times. The first run is for writing down every reference and the second run for actually outputting the correct reference instead of \verb+\cref{XX}+.
+%If your document contains ?? instead of a reference, you forgot the second compile run.
+%
+%\begin{figure}[ht]
+% \centering % centering figure 
+% \includegraphics[height=6cm]{images/loremipsum.png} % importing figure
+% \caption{Don't forget to find a fitting caption for your graphics.} 
+% \label{fig:lorem} % labeling to refer it inside the text
+%\end{figure} 
 
 %----------------------------------------------------------------------------------------
 %	SECTION X
