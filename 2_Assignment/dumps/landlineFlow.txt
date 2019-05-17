@@ -1,0 +1,26 @@
+|Time     | 2001:629:2600:a018:428d:5cff:fe10:2e9e|
+|         |                   | 2001:1:6::face:b004                   
+|10.017451190|         INVITE SDP (opus spe          |SIP INVITE From: <sip:cn_08@cn2lab.cn.tuwien.ac.at> To:sip:user@landline.cn2lab.cn.tuwien.ac.at Call-ID:5ZUQ8hsV5J CSeq:20
+|         |(5060)   ------------------>  (5060)   |
+|10.183096816|         180 Ringing                   |SIP Status 180 Ringing
+|         |(5060)   <------------------  (5060)   |
+|10.183098932|         200 OK SDP (opus spe          |SIP Status 200 OK
+|         |(5060)   <------------------  (5060)   |
+|10.607036470|         RTP (opus)                    |RTP, 501 packets. Duration: 10.076s SSRC: 0x4F6D67D8
+|         |(7078)   ------------------>  (6000)   |
+|10.641670537|         ACK       |                   |SIP Request INVITE ACK 200 CSeq:20
+|         |(5060)   ------------------>  (5060)   |
+|10.681790765|         200 OK SDP (opus spe          |SIP Status 200 OK
+|         |(5060)   <------------------  (5060)   |
+|10.686255880|         RTP (opus)                    |RTP, 493 packets. Duration: 9.839s SSRC: 0x4F6D67D8
+|         |(7078)   ------------------>  (6000)   |
+|10.713804307|         ACK       |                   |SIP ACK From: <sip:cn_08@cn2lab.cn.tuwien.ac.at> To:sip:user@landline.cn2lab.cn.tuwien.ac.at CSeq:20
+|         |(5060)   ------------------>  (5060)   |
+|13.649525617|         RTP (VP8) |                   |RTP, 1553 packets. Duration: 6.839s SSRC: 0x86A4B38B
+|         |(9078)   ------------------>  (6002)   |
+|13.804859282|         RTP (VP8) |                   |RTP, 1553 packets. Duration: 6.850s SSRC: 0x86A4B38B
+|         |(9078)   <------------------  (6002)   |
+|20.532371192|         BYE       |                   |SIP Request BYE CSeq:21
+|         |(5060)   ------------------>  (5060)   |
+|20.693316733|         200 OK    |                   |SIP Status 200 OK
+|         |(5060)   <------------------  (5060)   |
