@@ -110,41 +110,48 @@ The secret message is therefore \texttt{Dohugiwiqi3}.
 \end{figure}
 \subsection{Discussion of Measured Network Parameters}
 Factors that influence Quality of Service (QoS) include available bandwidth, latency, packet loss, packet delay variation, out-of-order delivery and rate of corrupted packets. 
-With Wireshark, an analysis of lost packets, the delta between packets and the jitter (as RTP packets contain information on the senders time) is possible.
+With Wireshark (under \texttt{Telephony > RTP > Show all streams}), we analysed lost packets, the delta between packets and the jitter (as RTP packets contain information on the senders time).
+Table \ref{tbl:rtpStatistics} shows these statistics for both servers.
+They confirm our subjective observation that Landline provides a better QoS than Satellite.
+The call with Landline has zero lost packets while Satellite looses between 4-5\% of its packets which may result in digital artefacts. 
+A higher mean jitter for Satellite means that a bigger playback buffer is required, which results in a degradation of real-time capabilities or a stuck video stream. %TODO: Verify this statement?)
 
+%TODO: Remove Max Delta and Max Jitter values?
 \begin{table}
+    \centering
     \begin{tabular}{c c c c c c c}
        \hline
-       Server & Payload & Packets & Lost & Max Delta & Max Jitter & Mean Jitter\\
+       Server & Payload & Packets & Lost (\%) & Max Delta (ms) & Max Jitter (ms) & Mean Jitter (ms)\\
+       \hline
        Landline & VP8 & 1553 & 0\% & 128 & 10.7 & 1.1 \\
        Landline & opus & 497 & 0\% & 43 & 7.8 & 4.9 \\
        Satellite & VP8 & 2280 & 4.5\% & 103 & 7.45 & 3.14\\
        Satellite & opus & 589 & 5.3\% & 68 & 19.4 & 14.2\\
        \hline
     \end{tabular}
+    \caption{Wireshark RTP statistics for the two servers}
+    \label{tbl:rtpStatistics}
 \end{table}
 
 % Useful links: 
 % - https://osqa-ask.wireshark.org/questions/48014/how-can-i-measure-packet-loss-delay-and-jitter-for-a-streaming-video-over-a-lan
 % - https://osqa-ask.wireshark.org/questions/52294/how-can-i-measure-throughput-packet-loss-delay-and-jitter-for-a-streaming-video-over-wifi
 
-\begin{verbatim}
-"Src addr","Src port","Dst addr","Dst port","SSRC","Payload","Packets","Lost","Max Delta (ms)","Max Jitter (ms)","Mean Jitter (ms)","Pb?"
-"2001:1:6::face:b004","6002","2001:629:2600:a018:428d:5cff:fe10:2e9e","9078","0x86A4B38B","VP8","1553","0 (0.0%)","128,636775","10,739464","1,120582",""
-"2001:1:6::face:b004","6000","2001:629:2600:a018:428d:5cff:fe10:2e9e","7078","0x4F6D67D8","opus","497","0 (0.0%)","43,523177","7,822404","4,946190",""
-"2001:629:2600:a018:428d:5cff:fe10:2e9e","9078","2001:1:6::face:b004","6002","0x86A4B38B","VP8","1553","0 (0.0%)","136,734240","10,572953","0,349627",""
-"2001:629:2600:a018:428d:5cff:fe10:2e9e","7078","2001:1:6::face:b004","6000","0x4F6D67D8","opus","497","0 (0.0%)","39,733756","5,741685","2,443102",""
-\end{verbatim}
-
 \subsection{Discussion of subjective QoS}
-Subjective QoS:
+We compared three different codecs for subjective video and sound quality.
+As expected, a changed codec for the Landline connection does not make any difference in the subjective QoS.
+This is because a good connection will deliver good results, even if the codec is not highly efficient / optimized (after all, the codec is designed to work as expected, at least under optimal conditions).
+
+
+% Useful links:
+% - https://linphone-developers.nongnu.narkive.com/fpQKrGMb/difference-between-video-profiles-mp4v-es-and-h264
 \begin{itemize}
-	\item Landline: 5 (very good quality)
-	\item Satellite: 3 (slight knacking in audio, video freezing every 5s)
+	\item Landline, Opus, VP8: 5 (very good quality)
+	\item Satellite, Opus, VP8: 3 (slight cracking in audio, video freezing every 5s)
 	\item Satellite Speex, MP4V-ES: bad quality, fragments in picture but no freezes, lag
 	\item Landline Speex, MP4V-ES: No difference in quality
-	\item Satellite H263-1998 PCMU: bad quality, smoother fragments in picture but no freezes, lag
-	\item Landline H263-1998 PCMU: No difference in quality
+	\item Satellite H263-1998, PCMU: bad quality, smoother fragments in picture but no freezes, lag
+	\item Landline H263-1998, PCMU: No difference in quality
 \end{itemize}
 
 
