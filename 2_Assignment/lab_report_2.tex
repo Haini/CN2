@@ -86,7 +86,7 @@
 %----------------------------------------------------------------------------------------
 \section{Description of the Solution}
 Linphone was used and configured to register with the provided SIP Registrar (Figure \ref{fig:registerLinphone}).
-The provided SIP identity and password were used (\texttt{sip:cn\_08@cn2lab.cn.tuwien.ac.aut}) for this.
+The provided SIP identity and password were used (\texttt{sip:cn\_08@cn2lab.cn.tuwien.ac.aut}) for this (Figure \ref{fig:registerLinphone} shows the setup dialouge).
 \begin{figure}[ht]
     \centering
    \includegraphics[width=0.5\textwidth]{images/linphoneSettings.png} 
@@ -96,7 +96,7 @@ The provided SIP identity and password were used (\texttt{sip:cn\_08@cn2lab.cn.t
 
 \subsection{Secret Message to the Registrar}
 A Wireshark log was created to detect the secret message to the registrar.
-A filter to \texttt{SIP} was set to observe the communication between the Registrar and our client.
+A filter to \texttt{SIP} was set up to observe the communication between the Registrar and our client.
 We look for registration operations which enable the server to know the location of our client.
 For this purpose, REGISTER messages are exchanged in a regular interval and the Registrar associates our SIP identity with our currently used machine (for a detailed description refer to RFC 3261, p. 16 and the lecture slides CN2-05-SIP, p. 103).
 The \texttt{secret-message} field that is to be found is an unrecognised SIP header that does not conform to the standards of the protocol.
@@ -110,7 +110,23 @@ The secret message is therefore \texttt{Dohugiwiqi3}.
 \end{figure}
 \subsection{Discussion of Measured Network Parameters}
 Factors that influence Quality of Service (QoS) include available bandwidth, latency, packet loss, packet delay variation, out-of-order delivery and rate of corrupted packets. 
-With Wireshark, an analysis of lost packets, the delta between packets and the jitter is possible.
+With Wireshark, an analysis of lost packets, the delta between packets and the jitter (as RTP packets contain information on the senders time) is possible.
+
+\begin{table}
+    \begin{tabular}{c c c c c c c}
+       \hline
+       Server & Payload & Packets & Lost & Max Delta & Max Jitter & Mean Jitter\\
+       Landline & VP8 & 1553 & 0\% & 128 & 10.7 & 1.1 \\
+       Landline & opus & 497 & 0\% & 43 & 7.8 & 4.9 \\
+       Satellite & VP8 & 2280 & 4.5\% & 103 & 7.45 & 3.14\\
+       Satellite & opus & 589 & 5.3\% & 68 & 19.4 & 14.2\\
+       \hline
+    \end{tabular}
+\end{table}
+
+% Useful links: 
+% - https://osqa-ask.wireshark.org/questions/48014/how-can-i-measure-packet-loss-delay-and-jitter-for-a-streaming-video-over-a-lan
+% - https://osqa-ask.wireshark.org/questions/52294/how-can-i-measure-throughput-packet-loss-delay-and-jitter-for-a-streaming-video-over-wifi
 
 \begin{verbatim}
 "Src addr","Src port","Dst addr","Dst port","SSRC","Payload","Packets","Lost","Max Delta (ms)","Max Jitter (ms)","Mean Jitter (ms)","Pb?"
