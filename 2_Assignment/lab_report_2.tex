@@ -142,6 +142,9 @@ We compared three different codecs for subjective video and sound quality.
 As expected, a changed codec for the Landline connection does not make any difference in the subjective QoS.
 This is because a good connection will deliver good results, even if the codec is not highly efficient / optimized (after all, the codec is designed to work as expected, at least under optimal conditions).
 
+MP4V-ES (MPEG4, Part 2) is a codec that integrates with H.263, a standard that is optimized towards usage with a low available bandwidth (< 64kbit/s).
+It heavily uses temporal compression, i.e. works best when there is a low amount of movement between frames.
+Since H263-1998 only provides additional optional features and therefore should come out very similar to H.263.
 
 % Useful links:
 % - https://linphone-developers.nongnu.narkive.com/fpQKrGMb/difference-between-video-profiles-mp4v-es-and-h264
@@ -154,7 +157,7 @@ This is because a good connection will deliver good results, even if the codec i
 	\item Landline H263-1998, PCMU: No difference in quality
 \end{itemize}
 
-
+%#TODO: Add plots
 
 %----------------------------------------------------------------------------------------
 %	SECTION X
