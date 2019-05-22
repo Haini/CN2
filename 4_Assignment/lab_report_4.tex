@@ -1,0 +1,110 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CN2 Labreport template
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[parskip=full]{scrartcl}
+
+\usepackage{siunitx}  % Provides the \SI{}{} command for typesetting SI units
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{booktabs} % nicer tables
+\usepackage[noabbrev]{cleveref} % automatic references
+\usepackage{listings} % typeset code
+
+\crefname{lstlisting}{listing}{listings} % for referencing code
+\Crefname{lstlisting}{Listing}{Listings} % for referencing code
+
+\usepackage[headsepline]{scrlayer-scrpage} % header
+\ohead{Group 08} % right part of header
+\ihead{Assignment 2} % left part of header
+
+\lstset{basicstyle=\ttfamily} % monospaced font in listing
+
+\usepackage{lstautogobble}  % Fix relative indenting
+\usepackage{color}          % Code coloring
+\usepackage{zi4}            % Nice font
+
+\definecolor{bluekeywords}{rgb}{0.13, 0.13, 1}
+\definecolor{greencomments}{rgb}{0, 0.5, 0}
+\definecolor{redstrings}{rgb}{0.9, 0, 0}
+\definecolor{graynumbers}{rgb}{0.5, 0.5, 0.5}
+
+\usepackage{listings}
+\lstset{
+    autogobble,
+    columns=fullflexible,
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    showstringspaces=false,
+    breakatwhitespace=true,
+    escapeinside={(*@}{@*)},
+    commentstyle=\color{greencomments},
+    keywordstyle=\color{bluekeywords},
+    stringstyle=\color{redstrings},
+    numberstyle=\color{graynumbers},
+    basicstyle=\ttfamily\footnotesize,
+    frame=l,
+    framesep=12pt,
+    xleftmargin=12pt,
+    tabsize=4,
+    captionpos=b
+}
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \textbf{Communication Networks 2}}\\
+    SS 2017\\
+    \vspace*{1cm}
+    {\Large Assignment 4}
+    \\\vspace*{3cm}
+    {\Large \textbf{Group 08}}\\
+    \vspace*{1cm}
+    {\large 
+        \begin{tabular}{l c c}
+            Name & Mat.Nummer \\ \hline
+            Constantin SCHIEBER & 01228774 \\
+            Andreas HIRTENLEHNER & 01327273
+        \end{tabular}
+    }
+    \\\vspace*{7cm}
+    \today
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Description of the Solution}
+We implement a ns3 simulation based on the given specification and with the help of the examples provided in the ns3 documentation.
+Furthermore, the generation of an XML-File for the tool \texttt{NetAnim} is implemented to visualize the created network.
+We create another \texttt{NetAnim} compatible XML-File that contains the routing tables of the network nodes.
+Static routing tables are computed at compile time with the \texttt{Ipv4GlobalRoutingHelper} library.
+
+\begin{lstlisting}[language=c, breaklines, frame=single, caption={Setup of the Nodes}, label=lst:setupNodes, float, floatplacement=h]
+\end{lstlisting}
+
+\subsection{Expected Results}
+\subsubsection{Observations at Node 1}
+Observations at Node 1 should show an outgoing \texttt{ICMP} packet to the address \texttt{10.0.148.2} every 0.2 seconds with a length of 1054 bytes (1024 bytes payload + 28 bytes protocol overhead).
+An incoming \texttt{ICMP} packet from the source \texttt{10.0.148.2} to the destination \texttt{10.0.20.1} should arrive after a time of approximately \texttt{(30ms + 2ms * 2) = 64ms}.
+The \texttt{ttl} of the incoming packet should be decreased by one, as Node 2 is traversed. 
+\subsubsection{Observations at Node 2}
+Node 2 should observe a packet from \texttt{10.0.20.1} every \texttt{0.2s*t + 30ms = t*2.3s} and an answer to that packet form \texttt{10.0.148.2} every \texttt{0.2s*t + 30ms + 2*2ms = t*2.34s} 
+\subsubsection{Observations at Node 3}
+
+\subsection{Observed Results}
+\subsection{Explanation of Deviation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
