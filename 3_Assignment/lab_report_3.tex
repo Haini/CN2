@@ -235,6 +235,26 @@ The IP of the discovered host is \texttt{10.0.212.52}
     \label{fig:networkLayout}
 \end{figure}
 \subsection{Routing tables of the routers}
+
+\begin{table}[hb]
+    \centering
+    \caption{Routing table for network A}
+    \label{tab:routing}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{router} & \textbf{destination} & \textbf{via}  \\ \midrule
+        r1 & 10.0.212.0/24 &  10.0.212.1 \\
+        r1 & 10.1.6.0/24   &  10.0.20.2 \\
+        r1 & 10.1.7.0/24   &  10.0.20.2 \\
+        \midrule
+        r2 & 10.1.6.0/24 & 10.1.6.1 \\
+        r2 & 10.1.7.0/24 & 10.0.84.2 \\
+        \midrule
+        r3 & 10.1.7.0/24 & 10.1.7.1\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 See routing table / create from it
 \begin{table}
     \centering
