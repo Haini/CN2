@@ -238,7 +238,7 @@ The IP of the discovered host is \texttt{10.0.212.52}
 
 \begin{table}[hb]
     \centering
-    \caption{Routing table for network A}
+    \caption{Routing table for our network \#TODO Other directions}
     \label{tab:routing}
     \begin{tabular}{lll}
         \toprule
@@ -255,52 +255,54 @@ The IP of the discovered host is \texttt{10.0.212.52}
     \end{tabular}
 \end{table}
 
-See routing table / create from it
-\begin{table}
-    \centering
-    \begin{tabular}{c c c }
-       \hline
-        Source & Destination & ? \\
-       \hline 
-       \hline
-    \end{tabular}
-    \caption{Routing table of router X}
-    \label{tbl:routingTableX}
-\end{table}
-
-\begin{table}
-    \centering
-    \begin{tabular}{c c c }
-       \hline
-        Source & Destination & ? \\
-       \hline 
-       \hline
-    \end{tabular}
-    \caption{Routing table of router X}
-    \label{tbl:routingTableX1}
-\end{table}
-
-\begin{table}
-    \centering
-    \begin{tabular}{c c c }
-       \hline
-        Source & Destination & ? \\
-       \hline 
-       \hline
-    \end{tabular}
-    \caption{Routing table of router X}
-    \label{tbl:routingTableX2}
-\end{table}
-
 \subsection{Measured network parameters}
 
-The \texttt{ping} tool was used to obtain information on the network, especially for the Landline and Satellite hosts.
+The \texttt{ping} and \texttt{mtrace} tools are used to obtain information on the network, especially for the Landline and Satellite hosts.
+With \texttt{mtrace}, routers on the way of a packet are discovered by limiting the hop limit of the packet and listening for their expiration message.
+Figures \ref{fig:mtraceLandline}, \ref{fig:mtraceSatellite} and Table \ref{tbl:mtraceResults} show the generated results.
+We can observe a more severe packet loss on the routers that are between our host and our remote. 
+As the packet loss is way lower for packets that shall reach the remote host, we assume that some kind of rate limiting process is taking place in the routers (i.e. router is dropping ICMP packets to save resources).
+We observe that Landline experiences no packet loss while Satellite losses 4.2\% of its packets. 
+This is the main reason for the degraded quality.
+
+\begin{table}[hb]
+    \centering
+    \caption{Results from mtrace}
+    \label{tbl:mtraceResults}
+    \begin{tabular}{cccccc}
+        \toprule
+        Destination & Packet Loss [\%] & Avg [ms] & Best [ms] & Worst [ms] & Standard Deviation  \\ \midrule
+        Satellite & 4.2 & 961.5 & 939.8 & 2694 & 58.9 \\
+        Landline & 0 & 159.1 & 151.6 & 167.1 & 3.2\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+   \includegraphics[width=\textwidth]{images/mytraceroute1.png} 
+    \caption{mtrace to Satellite}
+    \label{fig:mtraceSatellite}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+   \includegraphics[width=\textwidth]{images/mytraceroute2.png} 
+    \caption{mtrace to Landline}
+    \label{fig:mtraceLandline}
+\end{figure}
 
 
 \begin{lstlisting}[language=tex, breaklines, frame=single, caption={Landline Network Parameters}, label=lst:landlineNetwork, float, floatplacement=h]
 --- 10.1.7.123 ping statistics ---
 2023 packets transmitted, 1902 received, 5.98122% packet loss, time 1004ms
 rtt min/avg/max/mdev = 939.878/959.329/982.266/11.445 ms, pipe 5
+\end{lstlisting}
+
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Landline Network Parameters}, label=lst:landlineNetwork, float, floatplacement=h]
+--- 10.1.6.110 ping statistics ---
+2364 packets transmitted, 2363 received, 0.0423012% packet loss, time 1105ms
+rtt min/avg/max/mdev = 151.477/159.317/166.917/3.244 ms
 \end{lstlisting}
 
 
