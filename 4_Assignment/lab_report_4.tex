@@ -19,7 +19,7 @@
 
 \usepackage[headsepline]{scrlayer-scrpage} % header
 \ohead{Group 08} % right part of header
-\ihead{Assignment 2} % left part of header
+\ihead{Assignment 4} % left part of header
 
 \lstset{basicstyle=\ttfamily} % monospaced font in listing
 
@@ -86,25 +86,51 @@
 %----------------------------------------------------------------------------------------
 
 \section{Description of the Solution}
+
 We implement a ns3 simulation based on the given specification and with the help of the examples provided in the ns3 documentation.
 Furthermore, the generation of an XML-File for the tool \texttt{NetAnim} is implemented to visualize the created network.
 We create another \texttt{NetAnim} compatible XML-File that contains the routing tables of the network nodes.
 Static routing tables are computed at compile time with the \texttt{Ipv4GlobalRoutingHelper} library.
 
-\begin{lstlisting}[language=c, breaklines, frame=single, caption={Setup of the Nodes}, label=lst:setupNodes, float, floatplacement=h]
-\end{lstlisting}
+The \texttt{EnablePcapAll} function enables pcap output on all devices in the network. 
+Note that this function needs to be invoked on \texttt{p2p} and \texttt{csma} device types separately.
+This generates files of the type \texttt{prefix-A-B} where \texttt{A} is the node-id and \texttt{B} is the device-id. 
+We expect 3 nodes with ID 0 to 2 and two devices IDs 1 and 2. 
+A third device ID 0 is present in the routing tables and refers to the local loop back interface. 
+Subsequently, four pcap files are generated:
+
+\begin{itemize}
+    \item \texttt{assignment4-0-1}
+    \item \texttt{assignment4-1-1}
+    \item \texttt{assignment4-1-2}
+    \item \texttt{assignment4-2-1}
+\end{itemize}
 
 \subsection{Expected Results}
-\subsubsection{Observations at Node 1}
-Observations at Node 1 should show an outgoing \texttt{ICMP} packet to the address \texttt{10.0.148.2} every 0.2 seconds with a length of 1054 bytes (1024 bytes payload + 28 bytes protocol overhead).
+We expect about 9 seconds of recorded data. 
+\subsubsection{Node 0, Interface 1}
+Observations at Node 0, Interface 1 should show an outgoing \texttt{ICMP} packet to the address \texttt{10.0.148.2} every 0.2 seconds with a length of 1052 bytes (1024 bytes payload + 28 bytes protocol overhead).
 An incoming \texttt{ICMP} packet from the source \texttt{10.0.148.2} to the destination \texttt{10.0.20.1} should arrive after a time of approximately \texttt{(30ms + 2ms * 2) = 64ms}.
-The \texttt{ttl} of the incoming packet should be decreased by one, as Node 2 is traversed. 
-\subsubsection{Observations at Node 2}
-Node 2 should observe a packet from \texttt{10.0.20.1} every \texttt{0.2s*t + 30ms = t*2.3s} and an answer to that packet form \texttt{10.0.148.2} every \texttt{0.2s*t + 30ms + 2*2ms = t*2.34s} 
-\subsubsection{Observations at Node 3}
+The \texttt{ttl} of the incoming packet should be decreased by one, as Node 2 is traversed.
+The sent packets should be using P2P Frames. 
+
+\subsubsection{Node 1, Interface 1 (P2P)}
+Interface 1 on Node 1 receives messages from Node 0 every 0.2 seconds.
+These messages are then forwarded into the subnet \texttt{10.0.148.0} and the answer from the pinged host should (this time relayed from Interface 2) be received after 4ms.
+Packets should still be using P2P Frames.
+\subsubsection{Node 1, Interface 2 (CSMA)}
+Interface 2 on Node 1 forwards the packet to its destination, \texttt{10.0.148.2} and should record an answer from the destination after 4ms.
+Packets should have been switched to Ethernet Frames, which most likely will increase the total length of the packets.
+\subsubsection{Node 2, Interface 1 (CSMA)}
+Node 2 should record a packet on Interface 1 every 0.2 seconds and an outgoing answer to this packet should be recorded immediately.
+Packets should be still using Ethernet Frames.
 
 \subsection{Observed Results}
+The observed results match our expectation for the most part. 
+We didn't consider that Nodes 1 and 2 may use the ARP protocol at the start of the simulation.
+The total packet length under the usage of P2P Frames is \textbf{1054} and not 1052 (\texttt{20 Byte Ipv4 + 8 Byte ICMP + 2 Byte P2P}) as the size of the P2P frame was not considered.
+The total packet length for Ethernet Frames increases to \textbf{1070}, (\texttt{18 Byte Ethernet + 20 Byte IPv4 + 8 Byte ICMP}).
 \subsection{Explanation of Deviation}
-
+Careless analysis. \#TODO: What should be the difference between observed and expected results? Do I miss something?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

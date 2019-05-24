@@ -49,7 +49,7 @@ main (int argc, char *argv[])
    *            13Mbps                 90Mbs
    * 	        30ms                   2.0ms
    */
-  NodeContainer n0n1 = NodeContainer (c.Get (0), c.Get (1));
+  NodeContainer n0n1 = NodeContainer (c.Get (1), c.Get (0));
   NodeContainer n1n2 = NodeContainer (c.Get (1), c.Get (2));
 
   InternetStackHelper internet;
@@ -61,6 +61,7 @@ main (int argc, char *argv[])
   p2p.SetDeviceAttribute ("DataRate", StringValue ("13Mbps"));
   p2p.SetChannelAttribute ("Delay", StringValue ("30ms"));
   NetDeviceContainer d0d1 = p2p.Install (n0n1);
+  
 
   // We create the channels first without any IP addressing information
   CsmaHelper csma;
@@ -117,11 +118,12 @@ main (int argc, char *argv[])
   csma.EnableAsciiAll (ascii.CreateFileStream ("ass4-test.tr"));
   csma.EnablePcapAll ("assignment4", true);
   p2p.EnablePcapAll ("assignment4", true);
+  
 
   /* Allows us to draw the network with NetAnim */
-  std::string anim_name ("n-node-ppp.anim.xml");
-  AnimationInterface anim(anim_name.c_str ());
-  anim.EnableIpv4RouteTracking("n-route-tracking.anim.xml", Seconds(1), Seconds(10), Seconds(1));
+  //std::string anim_name ("n-node-ppp.anim.xml");
+  //AnimationInterface anim(anim_name.c_str ());
+  //anim.EnableIpv4RouteTracking("n-route-tracking.anim.xml", Seconds(1), Seconds(10), Seconds(1));
 
   NS_LOG_INFO ("Run Simulation.");
   Simulator::Run ();
