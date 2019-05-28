@@ -1,0 +1,149 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CN2 Labreport template
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[parskip=full]{scrartcl}
+
+\usepackage{siunitx}  % Provides the \SI{}{} command for typesetting SI units
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{booktabs} % nicer tables
+\usepackage[noabbrev]{cleveref} % automatic references
+\usepackage{listings} % typeset code
+
+\crefname{lstlisting}{listing}{listings} % for referencing code
+\Crefname{lstlisting}{Listing}{Listings} % for referencing code
+
+\usepackage[headsepline]{scrlayer-scrpage} % header
+\ohead{Group 08} % right part of header
+\ihead{Assignment 4} % left part of header
+
+\lstset{basicstyle=\ttfamily} % monospaced font in listing
+
+\usepackage{lstautogobble}  % Fix relative indenting
+\usepackage{color}          % Code coloring
+\usepackage{zi4}            % Nice font
+
+\definecolor{bluekeywords}{rgb}{0.13, 0.13, 1}
+\definecolor{greencomments}{rgb}{0, 0.5, 0}
+\definecolor{redstrings}{rgb}{0.9, 0, 0}
+\definecolor{graynumbers}{rgb}{0.5, 0.5, 0.5}
+
+\usepackage{listings}
+\lstset{
+    autogobble,
+    columns=fullflexible,
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    showstringspaces=false,
+    breakatwhitespace=true,
+    escapeinside={(*@}{@*)},
+    commentstyle=\color{greencomments},
+    keywordstyle=\color{bluekeywords},
+    stringstyle=\color{redstrings},
+    numberstyle=\color{graynumbers},
+    basicstyle=\ttfamily\footnotesize,
+    frame=l,
+    framesep=12pt,
+    xleftmargin=12pt,
+    tabsize=4,
+    captionpos=b
+}
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \textbf{Communication Networks 2}}\\
+    SS 2017\\
+    \vspace*{1cm}
+    {\Large Assignment 4}
+    \\\vspace*{3cm}
+    {\Large \textbf{Group 08}}\\
+    \vspace*{1cm}
+    {\large 
+        \begin{tabular}{l c c}
+            Name & Mat.Nummer \\ \hline
+            Constantin SCHIEBER & 01228774 \\
+            Andreas HIRTENLEHNER & 01327273
+        \end{tabular}
+    }
+    \\\vspace*{7cm}
+    \today
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Description of the Solution}
+
+We implement a ns3 simulation based on the given specification and with the help of the examples provided in the ns3 documentation.
+Furthermore, the generation of an XML-File for the tool \texttt{NetAnim} is implemented to visualize the created network.
+We create another \texttt{NetAnim} compatible XML-File that contains the routing tables of the network nodes.
+Static routing tables are computed at compile time with the \texttt{Ipv4GlobalRoutingHelper} library.
+
+The \texttt{EnablePcapAll} function enables pcap output on all devices in the network. 
+Note that this function needs to be invoked on \texttt{p2p} and \texttt{csma} device types separately.
+This generates files of the type \texttt{prefix-A-B} where \texttt{A} is the node-id and \texttt{B} is the device-id. 
+We expect 3 nodes with ID 0 to 2 and two devices IDs 1 and 2. 
+A third device ID 0 is present in the routing tables and refers to the local loop back interface. 
+Subsequently, four pcap files are generated:
+
+\begin{itemize}
+    \item \texttt{assignment4-0-1}
+    \item \texttt{assignment4-1-1}
+    \item \texttt{assignment4-1-2}
+    \item \texttt{assignment4-2-1}
+\end{itemize}
+
+\subsection{Expected Results}
+We expect about 9 seconds of recorded data. 
+\subsubsection{Node 0, Interface 1}
+Observations at Node 0, Interface 1 should show an outgoing \texttt{ICMP} packet to the address \texttt{10.0.148.2} every 0.2 seconds with a length of 1052 bytes (1024 bytes payload + 28 bytes protocol overhead).
+An incoming \texttt{ICMP} packet from the source \texttt{10.0.148.2} to the destination \texttt{10.0.20.1} should arrive after a time of approximately \texttt{(30ms + 2ms * 2) = 64ms}.
+The \texttt{ttl} of the incoming packet should be decreased by one, as Node 2 is traversed.
+The sent packets should be using P2P Frames. 
+
+\subsubsection{Node 1, Interface 1 (P2P)}
+Interface 1 on Node 1 receives messages from Node 0 every 0.2 seconds.
+These messages are then forwarded into the subnet \texttt{10.0.148.0} and the answer from the pinged host should (this time relayed from Interface 2) be received after 4ms.
+Packets should still be using P2P Frames.
+\subsubsection{Node 1, Interface 2 (CSMA)}
+Interface 2 on Node 1 forwards the packet to its destination, \texttt{10.0.148.2} and should record an answer from the destination after 4ms.
+Packets should have been switched to Ethernet Frames, which most likely will increase the total length of the packets.
+\subsubsection{Node 2, Interface 1 (CSMA)}
+Node 2 should record a packet on Interface 1 every 0.2 seconds and an outgoing answer to this packet should be recorded immediately.
+Packets should be still using Ethernet Frames.
+
+\subsubsection{Output of Ping}
+We expect a constant output from the ping tool, i.e. 1032 transmitted bytes, a ttl of 63 and a time of 64ms.
+
+
+
+\subsection{Observed Results and Explanation of Deviation}
+The observed results match our expectation for the most part. 
+We didn't consider that Nodes 1 and 2 may use the ARP protocol at the start of the simulation.
+The total packet length under the usage of P2P Frames is \textbf{1054} and not 1052 (\texttt{20 Byte Ipv4 + 8 Byte ICMP + 2 Byte P2P}) as the size of the P2P frame was not considered.
+The total packet length for Ethernet Frames increases to \textbf{1070}, (\texttt{18 Byte Ethernet + 20 Byte IPv4 + 8 Byte ICMP}).
+
+The ping tool reports a tim of 83ms for the first ping (Listing \ref{lst:ns3Ping}), this can be attributed to the fact that ARP packets are exchanged in the beginning and the pings are delayed by that. 
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Ping output from the ns3 simulation}, label=lst:ns3Ping, float, floatplacement=h]
+PING  10.0.148.2 56(84) bytes of data.
+1032 bytes from 10.0.148.2: icmp_seq=0 ttl=63 time=83 ms
+1032 bytes from 10.0.148.2: icmp_seq=1 ttl=63 time=65 ms
+...
+\end{lstlisting}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

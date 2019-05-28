@@ -1,0 +1,157 @@
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 192.168.88.2
+traceroute to 192.168.88.2 (192.168.88.2), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.168 ms  3.126 ms  3.113 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.0.20.2
+traceroute to 10.0.20.2 (10.0.20.2), 30 hops max, 60 byte packets
+ 1  10.0.20.2 (10.0.20.2)  3.312 ms  3.225 ms  3.191 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.0.20.1
+traceroute to 10.0.20.1 (10.0.20.1), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.108 ms  3.085 ms  3.087 ms
+ 2  10.0.20.1 (10.0.20.1)  157.701 ms  163.098 ms  164.644 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.0.212.1
+traceroute to 10.0.212.1 (10.0.212.1), 30 hops max, 60 byte packets
+ 1  10.0.212.1 (10.0.212.1)  3.007 ms  2.906 ms  3.021 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.0.212.52
+traceroute to 10.0.212.52 (10.0.212.52), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.266 ms  3.158 ms  3.112 ms
+ 2  10.0.212.52 (10.0.212.52)  3.288 ms  3.174 ms  3.149 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.1.6.1
+traceroute to 10.1.6.1 (10.1.6.1), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  2.919 ms  3.003 ms  2.987 ms
+ 2  10.1.6.1 (10.1.6.1)  160.833 ms  161.103 ms  164.648 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.1.6.110
+traceroute to 10.1.6.110 (10.1.6.110), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.059 ms  3.054 ms  3.020 ms
+ 2  10.0.20.1 (10.0.20.1)  161.403 ms  162.288 ms  163.789 ms
+ 3  landline.cn2lab.cn.tuwien.ac.at (10.1.6.110)  164.110 ms  164.085 ms  164.190 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.0.84.1
+traceroute to 10.0.84.1 (10.0.84.1), 30 hops max, 60 byte packets
+ 1  10.0.84.1 (10.0.84.1)  3.161 ms  3.096 ms  3.213 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.0.84.2
+traceroute to 10.0.84.2 (10.0.84.2), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  2.859 ms  2.955 ms  3.296 ms
+ 2  10.0.20.1 (10.0.20.1)  153.649 ms  157.751 ms  160.805 mstrac
+ 3  10.0.84.2 (10.0.84.2)  949.118 ms  954.589 ms  972.035 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.1.7.1
+traceroute to 10.1.7.1 (10.1.7.1), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.386 ms  3.302 ms  3.267 ms
+ 2  10.0.20.1 (10.0.20.1)  157.325 ms  157.311 ms  157.480 mstr
+ 3  10.1.7.1 (10.1.7.1)  952.940 ms  974.587 ms  974.622 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 10.1.7.123
+traceroute to 10.1.7.123 (10.1.7.123), 30 hops max, 60 byte packets
+ 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  2.979 ms  2.914 ms  2.889 ms
+ 2  10.0.20.1 (10.0.20.1)  158.651 ms  162.702 ms  162.738 ms
+ 3  10.0.84.2 (10.0.84.2)  953.359 ms  953.343 ms  953.326 ms
+ 4  satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123)  973.560 ms  973.575 ms  977.444 ms
+==============================================================================
+CN_08@pc12:~/Downloads/Assignments/3_Assignment/dumps$ traceroute 192.168.88.1
+traceroute to 192.168.88.1 (192.168.88.1), 30 hops max, 60 byte packets
+ 1  cn2lab.cn.tuwien.ac.at (192.168.88.1)  0.213 ms  0.233 ms  0.223 ms
+
+PING 192.168.88.2 (192.168.88.2) 56(124) bytes of data.
+64 bytes from 192.168.88.2: icmp_seq=1 ttl=64 time=2.89 ms
+RR: 	192.168.88.112
+	192.168.88.2
+	192.168.88.2
+	192.168.88.112
+
+PING 10.0.212.1 (10.0.212.1) 56(124) bytes of data.
+64 bytes from 10.0.212.1: icmp_seq=1 ttl=64 time=2.100 ms
+RR: 	192.168.88.112
+	10.0.212.1
+	10.0.212.1
+	192.168.88.112
+
+PING 10.0.212.52 (10.0.212.52) 56(124) bytes of data.
+64 bytes from 10.0.212.52: icmp_seq=1 ttl=63 time=3.01 ms
+RR: 	192.168.88.112
+	10.0.212.1
+	10.0.212.52
+	10.0.212.52
+	192.168.88.2
+	192.168.88.112
+
+PING 10.0.20.2 (10.0.20.2) 56(124) bytes of data.
+64 bytes from 10.0.20.2: icmp_seq=1 ttl=64 time=3.16 ms
+RR: 	192.168.88.112
+	10.0.20.2
+	10.0.20.2
+	192.168.88.112
+
+PING 10.0.20.1 (10.0.20.1) 56(124) bytes of data.
+64 bytes from 10.0.20.1: icmp_seq=1 ttl=63 time=162 ms
+RR: 	192.168.88.112
+	10.0.20.2
+	10.0.20.1
+	10.0.20.1
+	192.168.88.2
+	192.168.88.112
+
+PING 10.1.6.1 (10.1.6.1) 56(124) bytes of data.
+64 bytes from 10.1.6.1: icmp_seq=1 ttl=63 time=159 ms
+RR: 	192.168.88.112
+	10.0.20.2
+	10.1.6.1
+	10.1.6.1
+	192.168.88.2
+	192.168.88.112
+
+PING 10.0.84.2 (10.0.84.2) 56(124) bytes of data.
+64 bytes from 10.0.84.2: icmp_seq=1 ttl=63 time=971 ms
+RR: 	192.168.88.112
+	10.0.20.2
+	10.0.148.2
+	10.0.84.2
+	10.0.84.2
+	192.168.88.2
+	192.168.88.112
+
+PING 10.0.84.1 (10.0.84.1) 56(124) bytes of data.
+64 bytes from 10.0.84.1: icmp_seq=1 ttl=64 time=3.24 ms
+RR: 	192.168.88.112
+	10.0.84.1
+	10.0.84.1
+	192.168.88.112
+
+PING 10.1.7.1 (10.1.7.1) 56(124) bytes of data.
+64 bytes from 10.1.7.1: icmp_seq=2 ttl=63 time=948 ms
+RR: 	192.168.88.112
+	10.0.20.2
+	10.0.148.2
+	10.1.7.1
+	10.1.7.1
+	192.168.88.2
+	192.168.88.112
+
+PING 10.1.7.123 (10.1.7.123) 56(124) bytes of data.
+64 bytes from 10.1.7.123: icmp_seq=1 ttl=62 time=952 ms
+RR: 	192.168.88.112
+	10.0.20.2
+	10.0.148.2
+	10.1.7.1
+	10.1.7.123
+	10.1.7.123
+	10.0.84.2
+	192.168.88.2
+	192.168.88.112
+
+PING 192.168.88.1 (192.168.88.1) 56(124) bytes of data.
+64 bytes from 192.168.88.1: icmp_seq=1 ttl=64 time=0.311 ms
+RR: 	192.168.88.112
+	192.168.88.1
+	192.168.88.1
+	192.168.88.112
+
+
+
+

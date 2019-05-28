@@ -96,12 +96,13 @@ The provided SIP identity and password were used (\texttt{sip:cn\_08@cn2lab.cn.t
 
 \subsection{Secret Message to the Registrar}
 A Wireshark log was created to detect the secret message to the registrar.
-A filter to \texttt{SIP} was set up to observe the communication between the Registrar and our client.
+A filter for \texttt{SIP} was set up to observe the communication between the Registrar and our client.
 We look for registration operations which enable the server to know the location of our client.
 For this purpose, REGISTER messages are exchanged in a regular interval and the Registrar associates our SIP identity with our currently used machine (for a detailed description refer to RFC 3261, p. 16 and the lecture slides CN2-05-SIP, p. 103).
 The \texttt{secret-message} field that is to be found is an unrecognised SIP header that does not conform to the standards of the protocol.
 It is present in the header of \texttt{200 OK} messages that are sent by the server and has the value \texttt{Dohugiwiqi3}.
 The secret message is therefore \texttt{Dohugiwiqi3}.
+Our tutor confirms that the \texttt{secret-message} field is indeed purposely inserted for this lecture and does not have any further meaning.
 \begin{figure}[ht]
     \centering
    \includegraphics[width=0.5\textwidth]{images/sip_register_flow.jpg} 
@@ -115,6 +116,7 @@ Table \ref{tbl:rtpStatistics} shows these statistics for both servers.
 They confirm our subjective observation that Landline provides a better QoS than Satellite.
 The call with Landline has zero lost packets while Satellite looses between 4-5\% of its packets which may result in digital artefacts. 
 A higher mean jitter for Satellite means that a bigger playback buffer is required, which results in a degradation of real-time capabilities or a stuck video stream. %TODO: Verify this statement?)
+While a jitter of 30ms already leads to quality degradation of the service it is becoming unacceptable at over 100ms (\cite{noauthor_voip_2015}, \cite{noauthor_voip_2016}).
 
 %TODO: Remove Max Delta and Max Jitter values?
 \begin{table}
@@ -136,12 +138,16 @@ A higher mean jitter for Satellite means that a bigger playback buffer is requir
 % Useful links: 
 % - https://osqa-ask.wireshark.org/questions/48014/how-can-i-measure-packet-loss-delay-and-jitter-for-a-streaming-video-over-a-lan
 % - https://osqa-ask.wireshark.org/questions/52294/how-can-i-measure-throughput-packet-loss-delay-and-jitter-for-a-streaming-video-over-wifi
+% - https://osqa-ask.wireshark.org/questions/29008/what-are-difference-and-delta-in-wireshark-rtp-analysis
 
 \subsection{Discussion of subjective QoS}
 We compared three different codecs for subjective video and sound quality.
 As expected, a changed codec for the Landline connection does not make any difference in the subjective QoS.
 This is because a good connection will deliver good results, even if the codec is not highly efficient / optimized (after all, the codec is designed to work as expected, at least under optimal conditions).
 
+MP4V-ES (MPEG4, Part 2) is a codec that integrates with H.263, a standard that is optimized towards usage with a low available bandwidth ($<$ 64kbit/s).
+It heavily uses temporal compression, i.e. works best when there is a low amount of movement between frames.
+Since H263-1998 only provides additional optional features and therefore should come out very similar to H.263.
 
 % Useful links:
 % - https://linphone-developers.nongnu.narkive.com/fpQKrGMb/difference-between-video-profiles-mp4v-es-and-h264
@@ -154,12 +160,13 @@ This is because a good connection will deliver good results, even if the codec i
 	\item Landline H263-1998, PCMU: No difference in quality
 \end{itemize}
 
-
+%#TODO: Add plots
 
 %----------------------------------------------------------------------------------------
 %	SECTION X
 %---------------------------------------------------------------------------------------
 
-
+\bibliographystyle{unsrt}
+\bibliography{references}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
