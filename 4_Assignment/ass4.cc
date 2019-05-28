@@ -37,6 +37,7 @@ main (int argc, char *argv[])
   CommandLine cmd;
   cmd.Parse (argc, argv);
 
+  /* Create three nodes in a container */
   NS_LOG_INFO ("Create nodes.");
   NodeContainer c;
   c.Create (3);
@@ -49,27 +50,32 @@ main (int argc, char *argv[])
    *            13Mbps                 90Mbs
    * 	        30ms                   2.0ms
    */
+
+  /* Note that the sequence of nodes in the container matters, 
+   * IP Addresses will be assigned automatically and rely on the correct
+   * sequence of nodes. So that Node 0 gets the *.2 address, it needs to be the 
+   * second node in the container. */
   NodeContainer n0n1 = NodeContainer (c.Get (1), c.Get (0));
   NodeContainer n1n2 = NodeContainer (c.Get (1), c.Get (2));
 
+  /* Install the internet stack in all nodes */
   InternetStackHelper internet;
   internet.Install (c);
 
-  // We create the channels first without any IP addressing information
+  /* We create the channels first without any IP addressing information */
   NS_LOG_INFO ("Create channels.");
   PointToPointHelper p2p;
   p2p.SetDeviceAttribute ("DataRate", StringValue ("13Mbps"));
   p2p.SetChannelAttribute ("Delay", StringValue ("30ms"));
   NetDeviceContainer d0d1 = p2p.Install (n0n1);
   
-
-  // We create the channels first without any IP addressing information
+  /* We create the channels first without any IP addressing information */
   CsmaHelper csma;
   csma.SetChannelAttribute ("DataRate", StringValue ("90Mbps"));
   csma.SetChannelAttribute ("Delay", StringValue ("2ms"));
   NetDeviceContainer d1d2 = csma.Install (n1n2);
 
-  // Later, we add IP addresses.
+  /* Later, we add IP addresses. */
   NS_LOG_INFO ("Assign IP Addresses.");
   Ipv4AddressHelper ipv4;
 	
@@ -79,10 +85,13 @@ main (int argc, char *argv[])
   ipv4.SetBase ("10.0.148.0", "255.255.255.0");
   Ipv4InterfaceContainer iic1 = ipv4.Assign (d1d2);
 
-  // Create router nodes, initialize routing database and set up the routing
-  // tables in the nodes.
+  /* Create router nodes, initialize routing database and set up the routing
+   * tables in the nodes. 
+   * Documented in examples/simple-global-routing.cc
+   */
   Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
 
+  /* Application that runs on a node, set up to our specification. */
   NS_LOG_INFO ("Create Applications.");
   uint32_t packetSize = 1024;
   Time interPacketInterval = Seconds (0.2);

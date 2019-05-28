@@ -26,12 +26,16 @@
 \usepackage{lstautogobble}  % Fix relative indenting
 \usepackage{color}          % Code coloring
 \usepackage{zi4}            % Nice font
+\usepackage{enumitem}
+\usepackage{titlesec}
 
 \definecolor{bluekeywords}{rgb}{0.13, 0.13, 1}
 \definecolor{greencomments}{rgb}{0, 0.5, 0}
 \definecolor{redstrings}{rgb}{0.9, 0, 0}
 \definecolor{graynumbers}{rgb}{0.5, 0.5, 0.5}
-
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
 \usepackage{listings}
 \lstset{
     autogobble,
@@ -64,7 +68,7 @@
     \centering
     \vspace*{2cm}
     {\Huge \textbf{Communication Networks 2}}\\
-    SS 2017\\
+    SS 2019\\
     \vspace*{1cm}
     {\Large Assignment 4}
     \\\vspace*{3cm}
@@ -99,7 +103,7 @@ We expect 3 nodes with ID 0 to 2 and two devices IDs 1 and 2.
 A third device ID 0 is present in the routing tables and refers to the local loop back interface. 
 Subsequently, four pcap files are generated:
 
-\begin{itemize}
+\begin{itemize}[noitemsep]
     \item \texttt{assignment4-0-1}
     \item \texttt{assignment4-1-1}
     \item \texttt{assignment4-1-2}
@@ -128,15 +132,13 @@ Packets should be still using Ethernet Frames.
 \subsubsection{Output of Ping}
 We expect a constant output from the ping tool, i.e. 1032 transmitted bytes, a ttl of 63 and a time of 64ms.
 
-
-
 \subsection{Observed Results and Explanation of Deviation}
 The observed results match our expectation for the most part. 
-We didn't consider that Nodes 1 and 2 may use the ARP protocol at the start of the simulation.
+We didn't consider that Nodes 1 and 2 may use the Address Resolution Protocol (ARP) at the start of the simulation.
 The total packet length under the usage of P2P Frames is \textbf{1054} and not 1052 (\texttt{20 Byte Ipv4 + 8 Byte ICMP + 2 Byte P2P}) as the size of the P2P frame was not considered.
-The total packet length for Ethernet Frames increases to \textbf{1070}, (\texttt{18 Byte Ethernet + 20 Byte IPv4 + 8 Byte ICMP}).
+The total packet length for Ethernet Frames increases to \textbf{1070} (\texttt{18 Byte Ethernet + 20 Byte IPv4 + 8 Byte ICMP}).
 
-The ping tool reports a tim of 83ms for the first ping (Listing \ref{lst:ns3Ping}), this can be attributed to the fact that ARP packets are exchanged in the beginning and the pings are delayed by that. 
+The ping tool reports a time of 83ms for the first ping (Listing \ref{lst:ns3Ping}), this can be attributed to the fact that ARP packets are exchanged in the beginning and the first ping is delayed by that (Listing \ref{lst:ns3ARP}). 
 \begin{lstlisting}[language=tex, breaklines, frame=single, caption={Ping output from the ns3 simulation}, label=lst:ns3Ping, float, floatplacement=h]
 PING  10.0.148.2 56(84) bytes of data.
 1032 bytes from 10.0.148.2: icmp_seq=0 ttl=63 time=83 ms
@@ -144,6 +146,13 @@ PING  10.0.148.2 56(84) bytes of data.
 ...
 \end{lstlisting}
 
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={ARP messages that delay the first ping}, label=lst:ns3ARP, float, floatplacement=h]
+1	0.000000	00:00:00_00:00:03	Broadcast	ARP	64		64					
+2	0.004012	00:00:00_00:00:04	00:00:00_00:00:03	ARP	64		64									
+4	0.017114	00:00:00_00:00:04	Broadcast	ARP	64		64									
+5	0.017114	00:00:00_00:00:03	00:00:00_00:00:04	ARP	64		64									
+
+\end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
