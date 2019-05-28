@@ -125,12 +125,25 @@ Packets should have been switched to Ethernet Frames, which most likely will inc
 Node 2 should record a packet on Interface 1 every 0.2 seconds and an outgoing answer to this packet should be recorded immediately.
 Packets should be still using Ethernet Frames.
 
-\subsection{Observed Results}
+\subsubsection{Output of Ping}
+We expect a constant output from the ping tool, i.e. 1032 transmitted bytes, a ttl of 63 and a time of 64ms.
+
+
+
+\subsection{Observed Results and Explanation of Deviation}
 The observed results match our expectation for the most part. 
 We didn't consider that Nodes 1 and 2 may use the ARP protocol at the start of the simulation.
 The total packet length under the usage of P2P Frames is \textbf{1054} and not 1052 (\texttt{20 Byte Ipv4 + 8 Byte ICMP + 2 Byte P2P}) as the size of the P2P frame was not considered.
 The total packet length for Ethernet Frames increases to \textbf{1070}, (\texttt{18 Byte Ethernet + 20 Byte IPv4 + 8 Byte ICMP}).
-\subsection{Explanation of Deviation}
-Careless analysis. \#TODO: What should be the difference between observed and expected results? Do I miss something?
+
+The ping tool reports a tim of 83ms for the first ping (Listing \ref{lst:ns3Ping}), this can be attributed to the fact that ARP packets are exchanged in the beginning and the pings are delayed by that. 
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Ping output from the ns3 simulation}, label=lst:ns3Ping, float, floatplacement=h]
+PING  10.0.148.2 56(84) bytes of data.
+1032 bytes from 10.0.148.2: icmp_seq=0 ttl=63 time=83 ms
+1032 bytes from 10.0.148.2: icmp_seq=1 ttl=63 time=65 ms
+...
+\end{lstlisting}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
