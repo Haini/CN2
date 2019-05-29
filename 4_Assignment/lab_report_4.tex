@@ -91,7 +91,7 @@
 
 \section{Description of the Solution}
 
-We implement a ns3 simulation based on the given specification and with the help of the examples provided in the ns3 documentation.
+We implemented a ns3 simulation based on the given specification and with the help of the examples provided in the ns3 documentation.
 Furthermore, the generation of an XML-File for the tool \texttt{NetAnim} is implemented to visualize the created network.
 We create another \texttt{NetAnim} compatible XML-File that contains the routing tables of the network nodes.
 Static routing tables are computed at compile time with the \texttt{Ipv4GlobalRoutingHelper} library.
@@ -99,8 +99,8 @@ Static routing tables are computed at compile time with the \texttt{Ipv4GlobalRo
 The \texttt{EnablePcapAll} function enables pcap output on all devices in the network. 
 Note that this function needs to be invoked on \texttt{p2p} and \texttt{csma} device types separately.
 This generates files of the type \texttt{prefix-A-B} where \texttt{A} is the node-id and \texttt{B} is the device-id. 
-We expect 3 nodes with ID 0 to 2 and two devices IDs 1 and 2. 
-A third device ID 0 is present in the routing tables and refers to the local loop back interface. 
+We expect 3 nodes with ID 0 to 2 and two devices with IDs 1 and 2. 
+A third device ID 0 is present in the routing tables and refers to the local loopback interface. 
 Subsequently, four pcap files are generated:
 
 \begin{itemize}[noitemsep]
@@ -114,20 +114,20 @@ Subsequently, four pcap files are generated:
 We expect about 9 seconds of recorded data. 
 \subsubsection{Node 0, Interface 1}
 Observations at Node 0, Interface 1 should show an outgoing \texttt{ICMP} packet to the address \texttt{10.0.148.2} every 0.2 seconds with a length of 1052 bytes (1024 bytes payload + 28 bytes protocol overhead).
-An incoming \texttt{ICMP} packet from the source \texttt{10.0.148.2} to the destination \texttt{10.0.20.1} should arrive after a time of approximately \texttt{(30ms + 2ms * 2) = 64ms}.
+An incoming \texttt{ICMP} packet from the source \texttt{10.0.148.2} to the destination \texttt{10.0.20.1} should arrive after a time of approximately $30ms + 2 \cdot 2ms = 64ms$.
 The \texttt{ttl} of the incoming packet should be decreased by one, as Node 2 is traversed.
-The sent packets should be using P2P Frames. 
+The sent packets should use P2P Frames. 
 
 \subsubsection{Node 1, Interface 1 (P2P)}
 Interface 1 on Node 1 receives messages from Node 0 every 0.2 seconds.
 These messages are then forwarded into the subnet \texttt{10.0.148.0} and the answer from the pinged host should (this time relayed from Interface 2) be received after 4ms.
-Packets should still be using P2P Frames.
+Packets should still use P2P Frames.
 \subsubsection{Node 1, Interface 2 (CSMA)}
-Interface 2 on Node 1 forwards the packet to its destination, \texttt{10.0.148.2} and should record an answer from the destination after 4ms.
+Interface 2 on Node 1 forwards the packet to its destination \texttt{10.0.148.2} and should record an answer from the destination after 4ms.
 Packets should have been switched to Ethernet Frames, which most likely will increase the total length of the packets.
 \subsubsection{Node 2, Interface 1 (CSMA)}
 Node 2 should record a packet on Interface 1 every 0.2 seconds and an outgoing answer to this packet should be recorded immediately.
-Packets should be still using Ethernet Frames.
+Packets should still use Ethernet Frames.
 
 \subsubsection{Output of Ping}
 We expect a constant output from the ping tool, i.e. 1032 transmitted bytes, a ttl of 63 and a time of 64ms.
