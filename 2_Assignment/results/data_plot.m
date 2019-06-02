@@ -23,6 +23,8 @@ grid on
 plot(0:height_VideoH2631998-1, landline_incoming(1:height_VideoH2631998))
 plot(0:height_VideoH2631998-1, satellite_incoming(1:height_VideoH2631998))
 axis([0 height_VideoH2631998-1 -inf inf]);
+xlabel('packets');
+ylabel('time (ms)');
 legend('<- Landline', '<- Satellite');
 
 subplot(2,3,2);
@@ -30,6 +32,8 @@ title(join([param,' incoming']));
 hold on
 histogram(landline_incoming(1:height_VideoH2631998));
 histogram(satellite_incoming(1:height_VideoH2631998));
+xlabel('time (ms)');
+ylabel('packet count');
 legend('<- Landline','<- Satellite');
 
 subplot(2,3,3);
@@ -44,6 +48,8 @@ grid on
 hold on
 plot(0:height_VideoH2631998-1, landline_outgoing(1:height_VideoH2631998))
 plot(0:height_VideoH2631998-1, satellite_outgoing(1:height_VideoH2631998))
+xlabel('packets');
+ylabel('time (ms)');
 axis([0 height_VideoH2631998-1 -inf inf]);
 legend('-> Landline', '-> Satellite');
 
@@ -52,6 +58,8 @@ title(join([param,' outgoing']));
 hold on
 histogram(landline_outgoing(1:height_VideoH2631998));
 histogram(satellite_outgoing(1:height_VideoH2631998));
+xlabel('time (ms)');
+ylabel('packet count');
 legend('-> Landline','-> Satellite');
 
 subplot(2,3,6);
