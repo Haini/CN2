@@ -82,132 +82,6 @@
     \today
 \end{titlepage}
 
-%----------------------------------------------------------------------------------------
-%	SECTION 1
-%----------------------------------------------------------------------------------------
-%\section{Network Hierarchy Recovery}
-
-%k\begin{verbatim}
-%ktraceroute to landline.cn2lab.cn.tuwien.ac.at (10.1.6.110), 30 hops max, 60 byte packets
-%k 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  6.382 ms  6.279 ms  6.259 ms
-%k 2  10.0.20.1 (10.0.20.1)  322.040 ms  326.126 ms  326.109 ms
-%k 3  landline.cn2lab.cn.tuwien.ac.at (10.1.6.110)  326.091 ms  326.073 ms  326.055 ms
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%ktraceroute to satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123), 30 hops max, 60 byte packets
-%k 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.160 ms  3.286 ms  3.250 ms
-%k 2  10.0.20.1 (10.0.20.1)  155.870 ms  160.159 ms  161.802 ms
-%k 3  10.0.84.2 (10.0.84.2)  2685.357 ms  2692.193 ms  2692.169 ms
-%k 4  satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123)  2692.266 ms  2692.375 ms  2692.533 ms
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kCN_08@pc05:~$ ip -6 neigh
-%kfe80::1ec1:deff:fe80:3261 dev eno1 lladdr 1c:c1:de:80:32:61 router REACHABLE
-%k2001:629:2600:a018::2 dev eno1 lladdr 72:8f:5d:f9:92:6f router STALE
-%kfe80::708f:5dff:fef9:926f dev eno1 lladdr 72:8f:5d:f9:92:6f router STALE
-%k2001:629:2600:a018::1 dev eno1 lladdr 1c:c1:de:80:32:61 router STALE
-%kCN_08@pc05:~$ ip -4 neigh
-%k192.168.88.2 dev eno1 lladdr 72:8f:5d:f9:92:6f REACHABLE
-%k192.168.88.1 dev eno1 lladdr 1c:c1:de:80:32:61 REACHABLE
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%ktraceroute to 10.0.84.2 (10.0.84.2), 30 hops max, 60 byte packets
-%k 1  * * *
-%k 2  10.0.20.1 (10.0.20.1)  165.113 ms  165.100 ms  165.091 ms
-%k 3  10.0.84.2 (10.0.84.2)  955.090 ms  955.082 ms  971.120 ms
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kNmap scan report for 10.0.20.2
-%kNmap scan report for 10.0.84.1
-%kNmap scan report for 10.0.212.1
-%kNmap scan report for 10.0.212.52
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ traceroute 10.0.212.52
-%ktraceroute to 10.0.212.52 (10.0.212.52), 30 hops max, 60 byte packets
-%k 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.046 ms  3.075 ms  3.323 ms
-%k 2  10.0.212.52 (10.0.212.52)  3.291 ms  3.242 ms  3.207 ms
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ traceroute 10.0.212.1
-%ktraceroute to 10.0.212.1 (10.0.212.1), 30 hops max, 60 byte packets
-%k 1  10.0.212.1 (10.0.212.1)  2.846 ms  2.910 ms  3.269 ms
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ traceroute 10.0.84.1
-%ktraceroute to 10.0.84.1 (10.0.84.1), 30 hops max, 60 byte packets
-%k 1  10.0.84.1 (10.0.84.1)  3.296 ms  3.208 ms  3.172 ms
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ traceroute 10.0.20.2
-%ktraceroute to 10.0.20.2 (10.0.20.2), 30 hops max, 60 byte packets
-%k 1  10.0.20.2 (10.0.20.2)  3.098 ms  3.132 ms  3.117 ms
-%k\end{verbatim}
-%k
-%kOwn address: 192.168.88.117
-%k
-%k\begin{verbatim}
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ ip route get 10.0.212.52
-%k10.0.212.52 via 192.168.88.2 dev eno1 src 192.168.88.117 uid 5007
-%k    cache
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ ip route get 10.0.212.1
-%k10.0.212.1 via 192.168.88.2 dev eno1 src 192.168.88.117 uid 5007
-%k    cache
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ ip route get 10.0.84.1
-%k10.0.84.1 via 192.168.88.2 dev eno1 src 192.168.88.117 uid 5007
-%k    cache
-%kCN_08@pc17:~/Downloads/Assignments/3_Assignment$ ip route get 10.0.20.1
-%k10.0.20.1 via 192.168.88.2 dev eno1 src 192.168.88.117 uid 5007
-%k    cache
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kping -4 landline.cn2lab.cn.tuwien.ac.at
-%kPING landline.cn2lab.cn.tuwien.ac.at (10.1.6.110) 56(84) bytes of data.
-%k64 bytes from landline.cn2lab.cn.tuwien.ac.at (10.1.6.110): icmp_seq=1 ttl=62 time=158 ms
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kping -4 satellite.cn2lab.cn.tuwien.ac.at
-%kPING satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123) 56(84) bytes of data.
-%k64 bytes from satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123): icmp_seq=1 ttl=62 time=949 ms
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kip route get 10.1.6.110
-%k10.1.6.110 via 192.168.88.2 dev eno1 src 192.168.88.117 uid 5007
-%k    cache
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kip route get 10.1.7.123
-%k10.1.7.123 via 192.168.88.2 dev eno1 src 192.168.88.117 uid 5007
-%k    cache
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%ktraceroute 10.1.6.110
-%ktraceroute to 10.1.6.110 (10.1.6.110), 30 hops max, 60 byte packets
-%k 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.027 ms  3.193 ms  3.150 ms
-%k 2  10.0.20.1 (10.0.20.1)  157.531 ms  160.582 ms  160.824 ms
-%k 3  landline.cn2lab.cn.tuwien.ac.at (10.1.6.110)  163.504 ms  163.498 ms  163.624 ms
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%ktraceroute 10.1.7.123
-%ktraceroute to 10.1.7.123 (10.1.7.123), 30 hops max, 60 byte packets
-%k 1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)  3.291 ms  3.208 ms  3.175 ms
-%k 2  10.0.20.1 (10.0.20.1)  158.759 ms  164.016 ms  163.994 ms
-%k 3  10.0.84.2 (10.0.84.2)  977.978 ms  977.956 ms  979.547 ms
-%k 4  satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123)  981.655 ms  981.633 ms  981.663 ms
-%k\end{verbatim}
-%k
-%k\begin{verbatim}
-%kip route list
-%kdefault via 192.168.88.1 dev eno1 
-%k10.0.0.0/8 via 192.168.88.2 dev eno1 onlink 
-%k192.168.88.0/24 dev eno1 proto kernel scope link src 192.168.88.117 
-%k\end{verbatim}
-
 \section{Deliverables}
 
 \subsection{Description of the solution}
@@ -215,35 +89,56 @@ We used \texttt{nmap} to scan the network for hosts that would reply to pings.
 The other /16 IP addresses are ruled out by looking at the output of traceroute, i.e. which IPs act as routers and which act as hosts.
 We are operating on the Ethernet Layer in the local network, so packets are routed based on the MAC address (that is why the MAC Address doesn't change when a packet is routed to a different network).
 
-If no hops occour between our host and a remote, we can make the assumption that they may be the same node.
+If no hops occour between our host and a remote, we can make the assumption that they may be the same node (Listing \ref{lst:routes_traceroute}).
 Only one hop and the same network therefore mean that this is the same node.
+To get an idea about the network layout, the \texttt{ping -R <IP>} command was used to record the routes to the IP adresses we found with \texttt{nmap} (Listing \ref{lst:routes_ping}).
 
-\subsection{IP of the discovered host}
-The IP of the discovered host is \texttt{10.0.212.52}
-\subsection{Network diagram}
+With these informations, the network diagram in Figure \ref{fig:networkLayout} can be established. The arrrows in the diagram represents, that we found at least one route in that direction. 
+
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{network_layout.pdf} 
     \caption{Diagram of the network and its different sub-networks}
     \label{fig:networkLayout}
 \end{figure}
+
+\subsection{IP of the discovered host}
+The IP of the discovered host is \texttt{10.0.212.52}
+
 \subsection{Routing tables of the routers}
+The routing tables can be derived from the network diagram (Figure \ref{fig:networkLayout}) and the discovered routes from and to our client (Listing \ref{lst:routes_ping}) and is listed in Table \ref{tab:routing}.
+Since we have too less routing informations for \texttt{r2} and \texttt{r3}, we can not discover all routes.
 
 \begin{table}[hb]
     \centering
-    \caption{Routing table for our network \#TODO Other directions}
+    \caption{Routing table for our network}
     \label{tab:routing}
-    \begin{tabular}{lll}
+    \begin{tabular}{clllc}
         \toprule
-        \textbf{router} & \textbf{destination} & \textbf{via}  \\ \midrule
-        r1 & 10.0.212.0/24 &  10.0.212.1 \\
-        r1 & 10.1.6.0/24   &  10.0.20.2 \\
-        r1 & 10.1.7.0/24   &  10.0.20.2 \\
+        \textbf{router} & \textbf{destination} & \textbf{gateway} & \textbf{interface} & \textbf{hops} \\ \midrule
+           & 192.168.88.0/24 & 192.168.88.2 & 192.168.88.2 & 0 \\
+           & 10.0.20.0/24    & 10.0.20.2    & 10.0.20.2    & 0 \\
+           & 10.0.84.0/24    & 10.0.84.1    & 10.0.84.1    & 0 \\
+        r1 & 10.0.212.0/24   & 10.0.212.1   & 10.0.212.1   & 0 \\
+           & 10.0.148.0/24   & 10.0.20.1    & 10.0.20.2    & 1 \\
+           & 10.1.6.0/24     & 10.0.20.1    & 10.0.20.2    & 1 \\
+           & 10.1.7.0/24     & 10.0.20.1    & 10.0.20.2    & 2 \\
         \midrule
-        r2 & 10.1.6.0/24 & 10.1.6.1 \\
-        r2 & 10.1.7.0/24 & 10.0.84.2 \\
+           & 10.0.6.0/24     & 10.1.6.1     & 10.1.6.1     & 0 \\
+           & 10.0.148.0/24   & 10.0.148.2   & 10.0.148.2   & 0 \\
+           & 10.0.20.0/24    & 10.0.20.1    & 10.0.20.1    & 0 \\
+        r2 & 10.1.7.0/24     & 10.0.148.1   & 10.0.148.2   & 1 \\
+           & 10.0.212.0/24   & 10.0.20.2    & 10.0.20.1    & 1 \\
+           & 192.168.88.0/24 & 10.0.20.2    & 10.0.20.1    & 1 \\
+           & 10.0.84.0/24    & \textit{unknown} \\
         \midrule
-        r3 & 10.1.7.0/24 & 10.1.7.1\\
+           & 10.1.7.0/24     & 10.1.7.1     & 10.1.7.1     & 0 \\
+           & 10.0.84.0/24    & 10.0.84.2    & 10.0.84.2    & 0 \\
+           & 10.0.148.0/24   & 10.0.148.1   & 10.0.148.1   & 0 \\
+        r3 & 192.168.88.0/24 & 10.0.84.1    & 10.0.84.2    & 1 \\
+           & 10.0.212.0/24   & 10.0.84.1    & 10.0.84.2    & 1 \\
+           & 10.0.20.0/24    & \textit{unknown} \\
+           & 10.1.6.0/24     & \textit{unknown} \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -307,6 +202,141 @@ rtt min/avg/max/mdev = 151.477/159.317/166.917/3.244 ms
 Problem: No Wireshark dumps for this task, only ping data. 
 \textit{Use active testing tools to probe the network path between your client and the multimedia services and generate reliable statistics(for links and end-to-end connections) for the QoS-relevant parameters. Display these statistics graphically.}
 \subsection{Discussion of the results, comparing with the results from assignment 2}
+
+\begin{lstlisting}[language=tex, breaklines, frame=single, caption={Routes discovered by \texttt{traceroute <IP>}}, label=lst:routes_traceroute]
+    traceroute 192.168.88.2
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+    
+    traceroute 10.0.20.2
+     1  10.0.20.2 (10.0.20.2)
+    
+    traceroute 10.0.20.1
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+     2  10.0.20.1 (10.0.20.1)
+    
+    traceroute 10.0.212.1
+     1  10.0.212.1 (10.0.212.1)
+    
+    traceroute 10.0.212.52
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+     2  10.0.212.52 (10.0.212.52)
+    
+    traceroute 10.1.6.1
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+     2  10.1.6.1 (10.1.6.1)
+    
+    traceroute 10.1.6.110
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+     2  10.0.20.1 (10.0.20.1)
+     3  landline.cn2lab.cn.tuwien.ac.at (10.1.6.110)
+    
+    traceroute 10.0.84.1
+     1  10.0.84.1 (10.0.84.1)
+    
+    traceroute 10.0.84.2
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+     2  10.0.20.1 (10.0.20.1)
+     3  10.0.84.2 (10.0.84.2)
+    
+    traceroute 10.1.7.1
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+     2  10.0.20.1 (10.0.20.1)
+     3  10.1.7.1 (10.1.7.1)
+    
+    traceroute 10.1.7.123
+     1  border.cn2lab.cn.tuwien.ac.at (192.168.88.2)
+     2  10.0.20.1 (10.0.20.1)
+     3  10.0.84.2 (10.0.84.2)
+     4  satellite.cn2lab.cn.tuwien.ac.at (10.1.7.123)
+    
+    traceroute 192.168.88.1
+     1  cn2lab.cn.tuwien.ac.at (192.168.88.1)
+    \end{lstlisting}
+    
+    \begin{lstlisting}[language=tex, breaklines, frame=single, caption={Routes discovered by \texttt{ping -R <IP>}}, label=lst:routes_ping]
+        ping -R 192.168.88.2:
+            -> 192.168.88.112
+            -> 192.168.88.2
+            <- 192.168.88.2
+            <- 192.168.88.112
+    
+        ping -R 10.0.212.1:
+            -> 192.168.88.112
+            -> 10.0.212.1
+            <- 10.0.212.1
+            <- 192.168.88.112
+    
+        ping -R 10.0.212.52:
+            -> 192.168.88.112
+            -> 10.0.212.1
+            -> 10.0.212.52
+            <- 10.0.212.52
+            <- 192.168.88.2
+            <- 192.168.88.112
+    
+        ping -R 10.0.20.2:
+            -> 192.168.88.112
+            -> 10.0.20.2
+            <- 10.0.20.2
+            <- 192.168.88.112
+    
+        ping -R 10.0.20.1:
+            -> 192.168.88.112
+            -> 10.0.20.2
+            -> 10.0.20.1
+            <- 10.0.20.1
+            <- 192.168.88.2
+            <- 192.168.88.112
+    
+        ping -R 10.1.6.1:
+            -> 192.168.88.112
+            -> 10.0.20.2
+            -> 10.1.6.1
+            <- 10.1.6.1
+            <- 192.168.88.2
+            <- 192.168.88.112
+    
+        ping -R 10.0.84.2:
+            -> 192.168.88.112
+            -> 10.0.20.2
+            -> 10.0.148.2
+            -> 10.0.84.2
+            <- 10.0.84.2
+            <- 192.168.88.2
+            <- 192.168.88.112
+    
+        ping -R 10.0.84.1:
+            -> 192.168.88.112
+            -> 10.0.84.1
+            <- 10.0.84.1
+            <- 192.168.88.112
+    
+        ping -R 10.1.7.1:
+            -> 192.168.88.112
+            -> 10.0.20.2
+            -> 10.0.148.2
+            -> 10.1.7.1
+            <- 10.1.7.1
+            <- 192.168.88.2
+            <- 192.168.88.112
+    
+        ping -R 10.1.7.123:
+            -> 192.168.88.112
+            -> 10.0.20.2
+            -> 10.0.148.2
+            -> 10.1.7.1
+            -> 10.1.7.123
+            <- 10.1.7.123
+            <- 10.0.84.2
+            <- 192.168.88.2
+            <- 192.168.88.112
+    
+        ping -R 192.168.88.1:
+            -> 192.168.88.112
+            -> 192.168.88.1
+            <- 192.168.88.1
+            <- 192.168.88.112
+    \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
