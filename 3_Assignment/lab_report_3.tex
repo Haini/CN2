@@ -86,14 +86,14 @@
 
 \subsection{Description of the solution}
 We used \texttt{nmap} to scan the network for hosts that would reply to pings. 
-The other /16 IP addresses are ruled out by looking at the output of traceroute, i.e. which IPs act as routers and which act as hosts.
+The other /16 IP addresses are ruled out by looking at the output of \texttt{traceroute}, i.e. which IPs act as routers and which act as hosts.
 We are operating on the Ethernet Layer in the local network, so packets are routed based on the MAC address (that is why the MAC Address doesn't change when a packet is routed to a different network).
 
-If no hops occour between our host and a remote, we can make the assumption that they may be the same node (Listing \ref{lst:routes_traceroute}).
+If no hops occur between our host and a remote, we can make the assumption that they may be the same node (Listing \ref{lst:routes_traceroute}).
 Only one hop and the same network therefore mean that this is the same node.
-To get an idea about the network layout, the \texttt{ping -R <IP>} command was used to record the routes to the IP adresses we found with \texttt{nmap} (Listing \ref{lst:routes_ping}).
+To get an idea about the network layout, the \texttt{ping -R <IP>} command was used to record the routes to the IP addresses we found with \texttt{nmap} (Listing \ref{lst:routes_ping}).
 
-With these informations, the network diagram in Figure \ref{fig:networkLayout} can be established. The arrrows in the diagram represents, that we found at least one route in that direction. 
+With these informations, the network diagram in Figure \ref{fig:networkLayout} can be established. The arrows in the diagram represent, that we found at least one route in that direction. 
 
 \begin{figure}[ht]
     \centering
@@ -106,8 +106,8 @@ With these informations, the network diagram in Figure \ref{fig:networkLayout} c
 The IP of the discovered host is \texttt{10.0.212.52}
 
 \subsection{Routing tables of the routers}
-The routing tables can be derived from the network diagram (Figure \ref{fig:networkLayout}) and the discovered routes from and to our client (Listing \ref{lst:routes_ping}) and is listed in Table \ref{tab:routing}.
-Since we have too less routing informations for \texttt{r2} and \texttt{r3}, we can not discover all routes.
+The routing tables can be derived from the network diagram (Figure \ref{fig:networkLayout}) and the discovered routes from and to our client (Listing \ref{lst:routes_ping}) are listed in Table \ref{tab:routing}.
+Since we don't have enough routing information for \texttt{r2} and \texttt{r3}, we can not discover all routes.
 
 \begin{table}[hb]
     \centering
@@ -150,7 +150,7 @@ With \texttt{mtrace}, routers on the way of a packet are discovered by limiting 
 Figures \ref{fig:mtraceLandline}, \ref{fig:mtraceSatellite} and Table \ref{tbl:mtraceResults} show the generated results.
 We can observe a more severe packet loss on the routers that are between our host and our remote. 
 As the packet loss is way lower for packets that shall reach the remote host, we assume that some kind of rate limiting process is taking place in the routers (i.e. router is dropping ICMP packets to save resources).
-We observe that Landline experiences no packet loss while Satellite losses 4.2\% of its packets. 
+We observe that Landline experiences no packet loss while Satellite looses 4.2\% of its packets. 
 This is the main reason for the degraded QoS that was experienced in Assignment 2.
 
 \begin{table}[hb]
@@ -202,6 +202,8 @@ rtt min/avg/max/mdev = 151.477/159.317/166.917/3.244 ms
 Problem: No Wireshark dumps for this task, only ping data. 
 \textit{Use active testing tools to probe the network path between your client and the multimedia services and generate reliable statistics(for links and end-to-end connections) for the QoS-relevant parameters. Display these statistics graphically.}
 \subsection{Discussion of the results, comparing with the results from assignment 2}
+The measurements of this assignment back up the observations of assignment 2. 
+Network performance of the subnets show that the landline sub-network is better (lower packet loss, lower latency) than the satellite sub-network. 
 
 \begin{lstlisting}[language=tex, breaklines, frame=single, caption={Routes discovered by \texttt{traceroute <IP>}}, label=lst:routes_traceroute]
     traceroute 192.168.88.2
