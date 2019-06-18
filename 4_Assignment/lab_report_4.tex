@@ -151,8 +151,15 @@ PING  10.0.148.2 56(84) bytes of data.
 2	0.004012	00:00:00_00:00:04	00:00:00_00:00:03	ARP	64		64									
 4	0.017114	00:00:00_00:00:04	Broadcast	ARP	64		64									
 5	0.017114	00:00:00_00:00:03	00:00:00_00:00:04	ARP	64		64									
-
 \end{lstlisting}
+
+We also observe a longer than expected Round Trip Time (RTT) of the ping (65ms) / timestamps of received packets in Wireshark (65,488ms).
+This can be attributed to the Transmission Delay: $D_T = \frac{N}{R}$.
+$N$ is the number of transmitted bits, $R$ is the available data rate.
+It refers to the delay that is introduced to push all bits into the wire.
+For our setup the $D_T$ should be $2*(\frac{1054b*8}{13Mbps} + \frac{1070b*8}{90Mbps})+64ms \approx 65,487ms$.
+This value comes pretty close to the measured $65,488ms$ in Wireshark and explains the deviation from our expectation.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
