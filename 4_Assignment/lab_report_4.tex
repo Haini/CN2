@@ -90,8 +90,8 @@
 %----------------------------------------------------------------------------------------
 
 \section{Description of the Solution}
-
-We implement a ns3 simulation based on the given specification and with the help of the examples provided in the ns3 documentation.
+We implement a ns3 simulation based on the given specification.
+This was done based on the examples provided in the ns3 documentation.
 Furthermore, the generation of an XML-File for the tool \texttt{NetAnim} is implemented to visualize the created network.
 We create another \texttt{NetAnim} compatible XML-File that contains the routing tables of the network nodes.
 Static routing tables are computed at compile time with the \texttt{Ipv4GlobalRoutingHelper} library.
@@ -101,7 +101,7 @@ Note that this function needs to be invoked on \texttt{p2p} and \texttt{csma} de
 This generates files of the type \texttt{prefix-A-B} where \texttt{A} is the node-id and \texttt{B} is the device-id. 
 We expect 3 nodes with ID 0 to 2 and two devices IDs 1 and 2. 
 A third device ID 0 is present in the routing tables and refers to the local loop back interface. 
-Subsequently, four pcap files are generated:
+Subsequently, four pcap files are generated during simulation:
 
 \begin{itemize}[noitemsep]
     \item \texttt{assignment4-0-1}
@@ -109,6 +109,57 @@ Subsequently, four pcap files are generated:
     \item \texttt{assignment4-1-2}
     \item \texttt{assignment4-2-1}
 \end{itemize}
+
+\subsubsection{Creation of Nodes}
+Three nodes are created and assigned to two different node containers.
+The node that needs to implement \texttt{csma} and \texttt{p2p} functionality is assigned to both node containers. 
+An overview over the procedure is given in Listing \ref{lst:ns3Nodes}.
+\begin{lstlisting}[language=c++, breaklines, frame=single, caption={Setup of the nodes and connections}, label=lst:ns3Nodes, float, floatplacement=h]
+  //Create node container with 3 nodes
+  NodeContainer c;
+  c.Create (3);
+  ...
+  //Assign nodes so that IPs get assigned in the correct order later on
+  NodeContainer n0n1 = NodeContainer (c.Get (1), c.Get (0));
+  NodeContainer n1n2 = NodeContainer (c.Get (1), c.Get (2));
+  ...
+  //Configure settings for P2P connection
+  PointToPointHelper p2p;
+  p2p.SetDeviceAttribute ("DataRate", StringValue ("13Mbps"));
+  p2p.SetChannelAttribute ("Delay", StringValue ("30ms"));
+  NetDeviceContainer d0d1 = p2p.Install (n0n1);
+  ...
+  //Configure settings for CSMA connection 
+  CsmaHelper csma;
+  csma.SetChannelAttribute ("DataRate", StringValue ("90Mbps"));
+  csma.SetChannelAttribute ("Delay", StringValue ("2ms"));
+  NetDeviceContainer d1d2 = csma.Install (n1n2);
+\end{lstlisting}
+\subsubsection{Creation of Application}
+After the network for the simulation is established, a ping application needs to be implemented on Node 1 (Listing \ref{lst:ns3PingSetup}).
+ 
+\begin{lstlisting}[language=c++, breaklines, frame=single, caption={Configuration and installation of ping application in Node 1}, label=lst:ns3PingSetup, float, floatplacement=h]
+  ...
+  //Setup the ping application
+  uint32_t packetSize = 1024;
+  Time interPacketInterval = Seconds (0.2);
+  V4PingHelper ping ("10.0.148.2");
+
+  /* Start and Stop get overwritten in apps.start / apps.stop anyways */
+  ping.SetAttribute("StartTime", TimeValue (Seconds (1)));
+  ping.SetAttribute("StopTime", TimeValue (Seconds (10)));
+  /* Interval of 0.2 seconds */
+  ping.SetAttribute ("Interval", TimeValue (interPacketInterval));
+  /* Packet Size of 1024 + 28 byte overhead = 1052 bytes total */
+  ping.SetAttribute ("Size", UintegerValue (packetSize));
+  ...
+  /* Configures who is pinging and in which time frame */
+  ApplicationContainer apps = ping.Install (c.Get (0));
+  apps.Start (Seconds (1.0));
+  apps.Stop (Seconds (10.0));
+  ...
+\end{lstlisting}
+
 
 \subsection{Expected Results}
 We expect about 9 seconds of recorded data. 
@@ -133,11 +184,16 @@ Packets should be still using Ethernet Frames.
 We expect a constant output from the ping tool, i.e. 1032 transmitted bytes, a ttl of 63 and a time of 64ms.
 
 \subsection{Observed Results and Explanation of Deviation}
-The observed results match our expectation for the most part. 
-We didn't consider that Nodes 1 and 2 may use the Address Resolution Protocol (ARP) at the start of the simulation.
+The simulation results match our expectation for the most part. 
+In the following, we discuss the observed deviations.
+
+\subsubsection{Total Packet Length of Frames}
 The total packet length under the usage of P2P Frames is \textbf{1054} and not 1052 (\texttt{20 Byte Ipv4 + 8 Byte ICMP + 2 Byte P2P}) as the size of the P2P frame was not considered.
+
 The total packet length for Ethernet Frames increases to \textbf{1070} (\texttt{18 Byte Ethernet + 20 Byte IPv4 + 8 Byte ICMP}).
 
+\subsubsection{Unexpected Address Resolution Protocol (ARP) Messages}
+We didn't consider that Nodes 1 and 2 may use ARP at the start of the simulation.
 The ping tool reports a time of 83ms for the first ping (Listing \ref{lst:ns3Ping}), this can be attributed to the fact that ARP packets are exchanged in the beginning and the first ping is delayed by that (Listing \ref{lst:ns3ARP}). 
 \begin{lstlisting}[language=tex, breaklines, frame=single, caption={Ping output from the ns3 simulation}, label=lst:ns3Ping, float, floatplacement=h]
 PING  10.0.148.2 56(84) bytes of data.
@@ -152,14 +208,23 @@ PING  10.0.148.2 56(84) bytes of data.
 4	0.017114	00:00:00_00:00:04	Broadcast	ARP	64		64									
 5	0.017114	00:00:00_00:00:03	00:00:00_00:00:04	ARP	64		64									
 \end{lstlisting}
-
-We also observe a longer than expected Round Trip Time (RTT) of the ping (65ms) / timestamps of received packets in Wireshark (65,488ms).
+\subsubsection{Round Trip Time (RTT)}
+We also observe a longer than expected RTT of the ping (65ms) / timestamps of received packets in Wireshark (65,488ms).
 This can be attributed to the Transmission Delay: $D_T = \frac{N}{R}$.
 $N$ is the number of transmitted bits, $R$ is the available data rate.
 It refers to the delay that is introduced to push all bits into the wire.
-For our setup the $D_T$ should be $2*(\frac{1054b*8}{13Mbps} + \frac{1070b*8}{90Mbps})+64ms \approx 65,487ms$.
+
+For our setup the $D_T + delay$ should be $2*(\frac{1054b*8}{13Mbps} + \frac{1070b*8}{90Mbps})+64ms \approx 65,487ms$.
 This value comes pretty close to the measured $65,488ms$ in Wireshark and explains the deviation from our expectation.
 
+\subsubsection{Faulty Checksums}
+Wireshark reports that the calculated checksums and frame check sequences are incorrect. 
+This does not have direct consequences on the functionality of the simulation, albeit Wireshark can't match the response frames for ICMP and will highlight the wrong checksum values.
+Calculation of checksums needs to be explicitly enabled in the ns3 program by setting the \texttt{ChecksumEnabled} value to true (Listing \ref{lst:ns3Checksum})
+
+\begin{lstlisting}[language=c++, breaklines, frame=single, caption={Enable checksum calculation}, label=lst:ns3Checksum, float, floatplacement=h]
+GlobalValue::Bind ("ChecksumEnabled", BooleanValue (true));
+\end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
